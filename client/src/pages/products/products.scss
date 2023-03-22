@@ -1,0 +1,87 @@
+@import '../../color.scss';
+
+.products{
+    padding: 7px;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 7px;
+
+    .sidebar{
+        position:sticky;
+        top: 64px;
+        height: calc(100vh - 110px);
+        background: $faint-blue;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        gap: 10px;
+        overflow: hidden;
+        
+        .filters{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .subCategories{
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            
+                h4{
+                    margin-bottom: 5px;
+                }
+            
+                .inputItem{
+                    padding: 3px;
+                    font-size: 14px;
+                }
+            }
+    
+            .price{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                
+                .filterItem{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+            
+                    .priceRange{
+                        display: flex;
+                        gap: 5px;
+                        font-size: 14px;
+                    }
+            
+                }
+                .sortItem{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+            
+                    .radioButton{
+                        display: flex;
+                        gap: 5px;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+    
+    .container{
+        grid-column: span 4;
+        padding: 0 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        .catImage{
+            height: 400px;
+            width: 100%;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+    }
+}

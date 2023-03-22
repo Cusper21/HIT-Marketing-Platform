@@ -1,0 +1,118 @@
+@import '../../color.scss';
+a{
+    height:fit-content;
+}
+.card{
+    background: $bg-light;
+    width: 230px;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 15px;
+    transition: all .2s ease;
+
+    &:hover{
+        scale: 1.01;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;
+    }
+
+    .image{
+        width: 100%;
+        height: 230px;
+        position: relative;
+        overflow: hidden;
+
+        img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        span{
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 12px;
+            color: $accent-blue;
+            line-height: 20px;
+            width: 40px;
+            background: rgba($faint-blue, 1);
+            border-radius: 10px;
+            text-align: center;
+        }
+    }
+
+    h3{
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    .prices{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        h3{
+            font-size:16px;
+            font-weight: 400;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            &:nth-child(2){
+                text-decoration: line-through;
+                color: $text-dark-grey;
+            }
+        }
+
+        span{
+            font-size: 12px;
+            color: $accent-royal-green;           
+        }
+    }
+
+    .bottom{
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+        font-size: 12px;
+        
+        .likes{
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .bookmarks{
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+    }
+    
+    .buttons2{
+        display: flex;
+        gap: 10px;
+
+        button{
+            border-radius: 5px;
+            padding: 6px 18px;
+        }
+    }
+    button{
+        width: fit-content;
+        border: 2px solid rgba($accent-blue, 1);
+        background: rgba($accent-blue, 1);
+        font-size: 14px;
+        font-weight: 600;
+        color: $text-light;
+        cursor: pointer;
+        transition: all .2s ease-in-out;
+        
+        &:hover{
+            background:rgba($accent-blue, .9);
+            border-color: rgba($accent-blue, .1);
+        }
+    }  
+}

@@ -1,0 +1,39 @@
+@import '../../../color.scss';
+
+.sidePanel{
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    background: rgba($accent-purple, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    .top{
+        
+        position: sticky;
+        top: 0px;
+
+        background: rgba($accent-purple, 1);
+        display: flex;
+        align-items: center;
+        padding: 20px 10px 10px 10px;
+    }
+    .bottom{
+        
+        overflow-y: scroll;
+        
+        &::-webkit-scrollbar
+        {
+            width: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb
+        {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color:$icon-dark;
+        }
+    }
+
+}

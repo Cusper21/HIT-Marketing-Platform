@@ -1,0 +1,22 @@
+@import url('https://fonts.cdnfonts.com/css/google-sans');
+@import url('https://fonts.cdnfonts.com/css/helvetica-2');
+@import './color.scss';
+
+.app{
+    font-family: 'Public Sans', sans-serif;
+    color: $text-dark;
+
+    .link{
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .up{
+        padding: 7px;
+        display: flex;
+
+        .sidebar{
+            flex: 1;
+        }
+    }
+}

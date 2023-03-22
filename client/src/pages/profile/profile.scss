@@ -1,0 +1,86 @@
+@import '../../color.scss';
+
+.profile{
+    flex: 5;
+    display: flex;
+    justify-content: center;
+    
+    .container{
+        width: 100%;
+        padding: 0 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .catImage{
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            img{
+
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+        .userInfo{
+            width: 80%;
+
+            form{
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                gap: 30px;
+    
+                input{
+                    width: 1fr;
+                    border: none;
+                    border-radius: 3px;
+                    border-bottom: 2px solid rgba($text-dark, .3);
+                    padding: 10px;
+    
+                    &:focus{
+                        outline: none;
+                        border-bottom: 2px solid rgba($accent-blue, 1);
+                    }
+                }
+                
+                button{
+                    width: fit-content;
+                    border: 2px solid rgba($text-dark, 1);
+                    border-radius: 5px;
+                    padding: 6px 18px;
+                    background: rgba($text-dark, 1);
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: $text-light;
+                    cursor: pointer;
+                    transition: all .2s ease-in-out;
+                    
+                    &:hover{
+                        background:rgba($text-dark, .9);
+                        border-color: rgba($text-dark, .1);
+                    }
+                }
+            }
+        }
+        button{
+            width: fit-content;
+            border: 2px solid rgba($text-dark, 1);
+            border-radius: 5px;
+            padding: 6px 18px;
+            background: rgba($text-dark, 1);
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-light;
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+            
+            &:hover{
+                background:rgba($text-dark, .9);
+                border-color: rgba($text-dark, .1);
+            }
+        }
+    }
+}

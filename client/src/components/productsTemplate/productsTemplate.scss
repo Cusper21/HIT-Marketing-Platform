@@ -1,0 +1,24 @@
+@import '../../color.scss';
+
+.productsTemplate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin: 0 24px;
+
+    .top{
+
+        h1{
+           text-transform: capitalize;
+        }
+    }
+
+    .bottom{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+}

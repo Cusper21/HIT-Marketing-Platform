@@ -1,0 +1,130 @@
+@import '../../color.scss';
+
+html:not([data-scroll='0']) {
+    
+    .navbar{
+        box-shadow: rgba($shadow-dark, 0.2) 0px 2px 8px 0px;
+    }
+    
+}
+
+.navbar{
+    height: 56px;
+    position:sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    background-color: $bg-light;
+    transition: box-shadow ease-in-out .1s;
+    z-index: 10;
+
+    .wrapper{
+        height: 48px;
+        width: 100vw;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+        font-size: 14px;
+
+        .left{
+            display: flex;
+            gap: 20px;
+
+            span{
+                font-size: 24px;
+                font-weight: 700;
+                color: $accent-blue;
+            }
+            
+            a{
+                text-transform: capitalize;
+            }
+
+        }
+
+        .center{
+            display: flex;
+            align-items: center;
+
+            .item{
+                height: 36px;
+                border-radius: 20px;
+                background:$bg-offwhite;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 0 8px;
+
+                input{
+                    width: 260px;
+                    background-color: inherit;
+                    border: none;
+
+                    &:focus{
+                        outline: none;
+                        background-color: inherit;
+                    }
+
+                }
+            }
+        }
+
+        .right{
+            display: flex;
+
+            a{
+                width: 48px;
+                color: $icon-dark;
+
+                .navProfile{
+                    height: 32px;
+                    width: 32px;
+                    border-radius: 50%;
+                    background-color: $accent-green;
+                    color: $text-light;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    img{
+                        height: 32px;
+                        width: 32px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        overflow: hidden;
+                    }
+                }
+            }
+
+        }
+
+        a{
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+            &:hover{
+                color: $accent-blue;
+            }
+
+            span:not(:first-child){
+                color:$text-light;
+                background-color: $accent-blue;
+                font-size: 10px;
+                height: 16px;
+                width: 16px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                
+            }
+        }
+    }
+}

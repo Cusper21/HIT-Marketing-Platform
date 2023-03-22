@@ -1,0 +1,34 @@
+@import '../../../color.scss';
+
+.message{
+    margin: 10px;
+    max-width: 100%;
+    font-size: 13px;
+    display: flex;
+    scroll-margin-bottom:10px;
+
+    .contents{
+        max-width: 70%;
+        padding: 6px;
+        border-radius: 0 10px 10px 10px;
+        background-color: $bg-light;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        
+        span{
+            display: block;
+            text-align: end;
+            font-size: 11px;
+        }
+    }
+
+    &.owner{
+        flex-direction: row-reverse;
+
+        .contents{
+            background-color: $accent-lemongrass;
+            border-radius: 10px 0 10px 10px;
+        }
+    }
+}

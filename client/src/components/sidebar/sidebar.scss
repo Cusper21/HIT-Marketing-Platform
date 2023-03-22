@@ -1,0 +1,29 @@
+@import '../../color.scss';
+
+.sidebar{
+    position:sticky;
+    top: 64px;
+    height: calc(100vh - 110px);
+    background: $faint-blue;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    overflow: hidden;
+
+    .links{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        a{
+            padding: 10px;
+            border-radius: 5px;
+
+            &:hover{
+                background: $accent-lemongrass;
+            }
+        }
+    }
+}

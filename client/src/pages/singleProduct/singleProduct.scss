@@ -1,0 +1,148 @@
+@import '../../color.scss';
+
+.singleProduct{
+    display: flex;
+    padding: 20px;
+    gap: 40px;
+    margin-bottom: 2rem;
+
+    .left{
+        flex: 1;
+        display: flex;
+        gap: 20px;
+
+        .images{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            img{
+                width: 100%;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 10px;
+                cursor: pointer;
+            }
+        }
+        .mainImage{
+            flex: 5;
+
+            img{
+                width: 100%;
+                height: 550px;
+                object-fit: cover;
+                border-radius: 10px;
+            }
+        }
+    }
+    
+    .right{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        font-size: 14px;
+
+        .price{
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 20px;
+            color: $accent-blue;
+        }
+        .description{
+            min-height: 80px;
+            p{
+                width: 85%;
+                line-height: 22px;
+            }
+        }
+        .quantity{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+
+            button{
+                height: 30px;
+                width: 30px;
+                border-radius: 50%;
+                border: 1px $accent-blue solid;
+                color: $accent-blue;
+                background-color: $faint-blue;
+                font-size: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover{
+                    background-color: $accent-blue;
+                    color: $text-light;
+                }
+            }
+        }
+
+        .links{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            .likes{
+                display: flex;
+                align-items: center;
+                gap: 2px;
+            }
+            
+            a{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 6px 10px;
+                border-radius: 5px;
+                border: 2px $accent-blue solid;
+                color: $text-light;
+                background-color: $accent-blue;
+                transition: background-color .2s ease-in-out ;
+
+                &:last-child{ 
+                    color: $accent-blue;
+                    background-color: $text-light;
+
+                    &:hover{                    
+                        color: $text-light;
+                        background-color: $accent-blue;
+                    }
+                }
+                &:hover{
+                    color: $accent-blue;
+                    background-color: $text-light;
+                }
+            }
+        }
+        .info{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            .link1{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 6px 10px;
+                border: 2px $accent-blue solid;
+                color: $accent-blue;
+                background-color: $text-light;
+                border-radius: 5px;
+                width: fit-content;
+                transition: background-color .2s ease-in-out ;
+                cursor: pointer;
+
+                &:hover{                    
+                    color: $text-light;
+                    background-color: $accent-blue;
+                }
+            }
+        }
+    }
+}
