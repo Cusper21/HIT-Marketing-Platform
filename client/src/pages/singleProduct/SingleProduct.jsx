@@ -28,7 +28,6 @@ const SingleProduct = () => {
   const productId = useParams().id;
   const navigate = useNavigate();
 
-  const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState("image1");
 
   const { error, isLoading: prodIsLoding ,  data: productInfo } = useQuery(["productInfo", {id:productId}], () =>
@@ -114,14 +113,6 @@ const SingleProduct = () => {
                 <h4>Description:</h4>
                 <p>{product.description}</p>
               </div>
-
-              {/* <div className="quantity">
-                {product.quantity > 0 ? <span>In-stock: {product.quantity}</span> : <span>Out-of-stock</span>}
-                <h4>Quantity:</h4>   
-                <button onClick={()=> setQuantity((prev)=>(prev=== 1 ? 1: prev - 1))}>-</button>
-                {quantity}
-                <button onClick={()=> setQuantity((prev)=>(prev < product.quantity ? prev + 1: prev))}>+</button>
-              </div> */}
 
               <div className="links">
                 <div className='likes'>
