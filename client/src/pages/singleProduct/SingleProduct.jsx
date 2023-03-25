@@ -58,6 +58,33 @@ const SingleProduct = () => {
     { networkMode: "always" }
   )
 
+  const bookmarkMutation = useMutation(
+    (bookmarked) => {
+      if (bookmarked)
+      return makeRequest.delete('/bookmarks?product_id_bfk='+productId)
+      return makeRequest.post('/bookmarks?product_id_bfk='+productId)
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["bookmarks"]);
+      },
+    }
+  )
+
+  const { data: bookmarks } = useQuery(["bookmarks", productId], () =>
+
+    makeRequest.get("/bookmarks/?product_id_bfk="+productId).then((res) => {
+      return res.data
+    }),
+    { networkMode: "always" }
+  )
+
+  const handleBookmark = (e) => {
+    e.preventDefault()
+
+    bookmarkMutation.mutate(bookmarks.includes(currentUser.id))
+  }
+
   const handleLike = (e) => {
     e.preventDefault()
     mutation.mutate(likes.includes(currentUser.id))
@@ -77,13 +104,11 @@ const SingleProduct = () => {
     createchat({
       user_id:product.vendor_id_pfk,
       user_name:product.vendor_name,
-      user_image:product.profile_picture     
+      user_image:product.profile_picture
     }).then(()=>{
       navigate(`/chat/${currentUser.id}`)
     })
   }
-
-  console.log(productInfo)
 
   return (
     <div>
@@ -122,9 +147,9 @@ const SingleProduct = () => {
                   
                 </div>
                 <div className='bookmarks'>
-                  {false
-                  ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleLike}/>
-                  : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleLike}/>}
+                {bookmarks?.includes(currentUser.id)
+                ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleBookmark}/>
+                : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleBookmark}/>}
                 </div>
                 <FlagRoundedIcon style={{ height:"20px"}}/>
               
