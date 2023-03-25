@@ -12,7 +12,7 @@ export const likes = (req,res) =>{
         db.query(q,[req.query.product_id_wfk],(err,data)=>{
             if (err)
             return res.status(500).send(err);
-            return res.status(200).send(data.map(wish=>wish.customer_id_wfk));
+            return res.status(200).send(data.map(like=>like.customer_id_wfk));
         });
 }
 

@@ -20,7 +20,7 @@ const Card = ({item}) => {
 
   const queryClient = new useQueryClient()
 
-  const mutation = useMutation(
+  const likeMutation = useMutation(
     (liked) => {
       if (liked)
       return makeRequest.delete('/likes?product_id_wfk='+item.id)
@@ -33,6 +33,19 @@ const Card = ({item}) => {
     }
   )
 
+  const bookmarkMutation = useMutation(
+    (bookmarked) => {
+      if (bookmarked)
+      return makeRequest.delete('/bookmarks?product_id_bfk='+item.id)
+      return makeRequest.post('/bookmarks?product_id_bfk='+item.id)
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["bookmarks"]);
+      },
+    }
+  )
+
   const { data: likes } = useQuery(["likes", item.id], () =>
 
     makeRequest.get("/likes/?product_id_wfk="+item.id).then((res) => {
@@ -41,11 +54,24 @@ const Card = ({item}) => {
     { networkMode: "always" }
   )
 
+  const { data: bookmarks } = useQuery(["bookmarks", item.id], () =>
+
+    makeRequest.get("/bookmarks/?product_id_bfk="+item.id).then((res) => {
+      return res.data
+    }),
+    { networkMode: "always" }
+  )
 
   const handleLike = (e) => {
     e.preventDefault()
 
-    mutation.mutate(likes.includes(currentUser.id))
+    likeMutation.mutate(likes.includes(currentUser.id))
+  }
+
+  const handleBookmark = (e) => {
+    e.preventDefault()
+
+    bookmarkMutation.mutate(bookmarks.includes(currentUser.id))
   }
 
   const[err, setErr] = useState(null)
@@ -87,9 +113,9 @@ const Card = ({item}) => {
           </div>
           
           <div className='bookmarks'>
-            {false
-            ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleLike}/>
-            : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleLike}/>}
+            {bookmarks?.includes(currentUser.id)
+            ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleBookmark}/>
+            : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleBookmark}/>}
           </div>
 
           <FlagRoundedIcon style={{ height:"20px"}}/>

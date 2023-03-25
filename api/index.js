@@ -7,6 +7,7 @@ import categoryRoutes from "./routes/categories.js";
 import productRoutes from "./routes/products.js";
 import userRoutes from "./routes/users.js";
 import likeRoutes from "./routes/likes.js";
+import bookmarkRoutes from "./routes/bookmarks.js";
 
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -48,6 +49,7 @@ app.use("/api/categories", categoryRoutes)
 app.use("/api/products", productRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/likes", likeRoutes)
+app.use("/api/bookmarks", bookmarkRoutes)
 
 app.listen(8800, ()=>{
     console.log("api working");
