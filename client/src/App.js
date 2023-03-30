@@ -23,10 +23,13 @@ import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 import { SearchContextProvider } from './context/searchContext';
 import { ChatContextProvider } from "./context/chatContext";
+import Bookmarks from "./pages/bookmarks/Bookmarks";
 
 function App() {
 
   const queryClient = new QueryClient()
+
+  const {currentUser} = useContext(AuthContext)
   
   const RegistrationLayout = () =>{
     return(
@@ -51,12 +54,28 @@ function App() {
   }
   
   const ProtectedRoute = ({children})=>{
-    const {currentUser} = useContext(AuthContext)
+    
 
     if(currentUser){
       return children
     }
     return <Navigate to="/login"/>
+  }
+
+  const ProtectedRoute1 = ({children})=>{
+    
+    if(currentUser.id.includes('C')){
+      return children
+    }
+    return <Navigate to="/up"/>
+  }
+
+  const ProtectedRoute2 = ({children})=>{
+    
+    if(currentUser.id.includes('V')){
+      return children
+    }
+    return <Navigate to="/up"/>
   }
   
   const router = createBrowserRouter([
@@ -77,7 +96,7 @@ function App() {
           element: <SingleProduct/>,
         },
         {
-          path: "/chat/:id",
+          path: "/chat",
           element: <Chat/>,
         },
         {
@@ -89,20 +108,24 @@ function App() {
             </div>,
           children:[
             {
-              path: "/up/:id",
+              path: "/up",
               element: <Profile/>
             },
             {
+              path: "/up/bookmarks",
+              element: <ProtectedRoute1><Bookmarks/></ProtectedRoute1>
+            },
+            {
               path: "/up/addproduct",
-              element: <AddProduct/>
+              element: <ProtectedRoute2><AddProduct/></ProtectedRoute2>
             },
             {
               path: "/up/manage",
-              element: <ManageProducts/>
+              element: <ProtectedRoute2><ManageProducts/></ProtectedRoute2>
             },
             {
               path: "/up/reported",
-              element: <ReportedProducts/>
+              element: <ProtectedRoute2><ReportedProducts/></ProtectedRoute2>
             }
           ]
         }

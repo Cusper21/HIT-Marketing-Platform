@@ -97,17 +97,17 @@ const Navbar = () => {
 
         <div className="right">
 
-          <Link className="link" to={`/chat/${currentUser.id}`}>
+          <Link className="link" to={`/chat`}>
             <ChatOutlinedIcon/>
             <span>0</span>
           </Link>
 
-          <Link className="link" to="/wishlist">
+          <Link className="link" to={`/up/bookmarks`}>
             <BookmarkAddOutlinedIcon/>
             <span>0</span>
           </Link>
 
-          <Link className="link" to={`/up/${currentUser.id}`}>
+          <Link className="link" to={`/up`}>
             <div className="navProfile">
               <img src={currentUser.profile_picture} alt="" />
             </div>

@@ -106,7 +106,7 @@ const SingleProduct = () => {
       user_name:product.vendor_name,
       user_image:product.profile_picture
     }).then(()=>{
-      navigate(`/chat/${currentUser.id}`)
+      navigate(`/chat`)
     })
   }
 

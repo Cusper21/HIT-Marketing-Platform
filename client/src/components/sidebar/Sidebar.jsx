@@ -11,18 +11,21 @@ const Sidebar = () => {
   return (
     <div className='sidebar'>
       
-      {window.location.pathname.includes('/up/C') &&
+      {currentUser.id.includes('C') &&
         <div className="links">
-          <Link className='link' to=''>
+          <Link className='link' to={`/up`}>
             <h4>Profile page</h4>
+          </Link>
+          <Link className='link' to={`/up/bookmarks`}>
+            <h4>Bookmarks</h4>
           </Link>
         </div>
       }
       
-      {(window.location.pathname.includes('/up/V') || window.location.pathname.includes('/addproduct') || window.location.pathname.includes('/manage') || window.location.pathname.includes('/reported')) &&
+      {currentUser.id.includes('V') &&
         <div className="links">
 
-          <Link className='link' to={`/up/${currentUser.id}`}>
+          <Link className='link' to={`/up`}>
             <h4>Profile page</h4>
           </Link>
 

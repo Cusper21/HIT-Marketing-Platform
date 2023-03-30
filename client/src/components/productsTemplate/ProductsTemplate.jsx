@@ -36,7 +36,7 @@ const ProductsTemplate = ({type}) => {
         <h1>{type} Products</h1>
       </div>
 
-      <div className="bottom">
+      <div className="bottom1">
         {err
           ? "Something went wrong!"
           :loading

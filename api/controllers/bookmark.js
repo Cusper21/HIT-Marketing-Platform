@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const fetchBookmarks = (req, res) => {
-
     const q = `
     SELECT customer_id_bfk
     FROM bookmarks
@@ -25,7 +24,6 @@ export const addBookmark = (req, res) => {
 
     jwt.verify(token, "secretkey", (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
-            
             const q = `
             INSERT INTO bookmarks
             (customer_id_bfk, product_id_bfk)
@@ -47,10 +45,7 @@ export const deleteBookmark = (req, res) => {
     if(!token) return res.status(401).send("User is not logged in!")
 
     jwt.verify(token, "secretkey", (err,data)=>{
-        if (err) return res.status(403).send("Token is invalid!")
-
-        console.log(req.query.product_id_bfk)
-    
+        if (err) return res.status(403).send("Token is invalid!")    
             const q = `
             DELETE
             FROM bookmarks

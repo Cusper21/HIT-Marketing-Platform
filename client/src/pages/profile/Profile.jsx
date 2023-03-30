@@ -17,7 +17,7 @@ const Profile = () => {
                 </button>
             </div>
             <div className="userInfo">
-                {window.location.pathname.includes('/up/C') && 
+                {currentUser.id.includes('C') && 
                     <form action=""  >
                         <input type="text" placeholder="Enter Firstname" />
                         <input type="text" placeholder="Enter Surname"/>
@@ -31,7 +31,7 @@ const Profile = () => {
                     </form>
                 }
 
-                {window.location.pathname.includes('/up/V') && 
+                {currentUser.id.includes('V') && 
                     <form action="">
                         <input type="text" placeholder="Enter Company Name"/>
                         <input type="text" placeholder="Enter Address"/>
