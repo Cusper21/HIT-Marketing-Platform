@@ -1,14 +1,14 @@
 import { db } from "../connect.js";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import moment from "moment";
+import {secret} from './../index.js'
 
 export const createChat = (req, res) => {
     const token = req.cookies.accessToken;
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
        
         const combined_id = `${data.id}${req.body.user_id}`
@@ -28,7 +28,7 @@ export const fetchChat = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
 
         let combined_id;
@@ -54,7 +54,7 @@ export const saveMessage = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
 
         let combined_id;
@@ -84,7 +84,7 @@ export const fetchChats = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
         const q = "SELECT * FROM ??"

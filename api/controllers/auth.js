@@ -1,6 +1,7 @@
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {secret} from './../index.js'
 
 export const registerCustomer = (req, res) => {
 
@@ -91,7 +92,7 @@ export const login = (req, res) => {
         if(!checkPassword)
         return res.status(400).send("Wrong username or password!");
         
-        const token = jwt.sign({id:data[0].id}, "secretkey");
+        const token = jwt.sign({id:data[0].id}, secret);
 
         const {password, ...others} = data[0];
 

@@ -1,6 +1,6 @@
 import { db } from "../connect.js";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {secret} from './../index.js'
 
 export const likes = (req,res) =>{
 
@@ -21,7 +21,7 @@ export const like = (req,res) =>{
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
             const q = `
@@ -43,7 +43,7 @@ export const removeLike = (req,res) =>{
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
             const q = `

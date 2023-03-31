@@ -1,6 +1,7 @@
 import { db } from "../connect.js";
 import jwt from "jsonwebtoken"
 import moment from "moment";
+import {secret} from './../index.js'
 
 export const postProducts = (req, res) => {
 
@@ -8,7 +9,7 @@ export const postProducts = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
         const q = `
@@ -75,7 +76,7 @@ export const fetchVendorProducts = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
         const q = `
@@ -97,7 +98,7 @@ export const fetchReportedProducts = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
             const q = `
@@ -135,7 +136,7 @@ export const deleteProduct = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
         const q = `

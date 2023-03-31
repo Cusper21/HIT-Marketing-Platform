@@ -1,4 +1,5 @@
 import express from "express";
+
 const app = express();
 
 import authRoutes from "./routes/auth.js";
@@ -12,6 +13,12 @@ import bookmarkRoutes from "./routes/bookmarks.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import multer from "multer";
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+export const secret = process.env.REACT_APP_JWT_SECRETKEY;
+
 
 //middlewares
 app.use((req,res,next)=>{

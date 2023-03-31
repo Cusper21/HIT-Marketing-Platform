@@ -1,6 +1,6 @@
 import { db } from "../connect.js";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import {secret} from './../index.js'
 
 export const fetchBookmarks = (req, res) => {
     const q = `
@@ -22,7 +22,7 @@ export const addBookmark = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
             const q = `
             INSERT INTO bookmarks
@@ -44,7 +44,7 @@ export const deleteBookmark = (req, res) => {
 
     if(!token) return res.status(401).send("User is not logged in!")
 
-    jwt.verify(token, "secretkey", (err,data)=>{
+    jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")    
             const q = `
             DELETE
@@ -55,6 +55,29 @@ export const deleteBookmark = (req, res) => {
                 if (err)
                 return res.status(500).send(err);
                 return res.status(200).send('Bookmark deleted!');
+        });
+    })
+};
+
+export const fetchUserBookmarks = (req, res) => {
+
+    const token = req.cookies.accessToken;
+
+    if(!token) return res.status(401).send("User is not logged in!")
+
+    jwt.verify(token, secret, (err,data)=>{
+        if (err) return res.status(403).send("Token is invalid!")
+        
+            const q = `
+            SELECT p.*
+            FROM bookmarks
+            JOIN products p ON product_id_bfk = p.id
+            WHERE customer_id_bfk = ?`;
+
+            db.query(q, [data.id], (err,data)=>{
+                if (err)
+                return res.status(500).send(err);
+                return res.status(200).send(data);
         });
     })
 };
