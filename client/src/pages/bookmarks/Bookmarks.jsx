@@ -22,30 +22,39 @@ const Bookmarks = () => {
   const deleteBookmarks = ()=>{
     
   }
-  const deleteBookmark = ()=>{
+  const deleteBookmark = (productId)=>{
 
   }
 
   return (
     <div className="bookmarks">
-      <h1>My Bookmarks</h1>
+      <div className="topbar">
+        <h2>My Bookmarks</h2>
+        <span className="deleteBookmarks" onClick={() => deleteBookmarks()}>
+          Delete All Bookmarks
+        </span>
+      </div>
       {products?.map((item) => (
         <Link className="item link" key={item.id} to={`/product/${item.id}`}>
-          <img src={`./upload/${item.image1}`} alt="" />
-          <div className="details">
-            <h1>{item.name}</h1>
-            <p>{item.description?.substring(0, 100)}</p>
-            <div className="price">
-              ${item.price}
+          <div className="bleft">
+            <img src={`./upload/${item.image1}`} alt="" />
+            <div className="details">
+              <h3>{item.name}</h3>
+              <div className="price">
+                ${item.price}
+              </div>
+              {item.colour && <p>{item.colour}</p>}
             </div>
           </div>
-          <BookmarkRemoveOutlinedIcon className="deleteBookmark" onClick={() => deleteBookmark(item.id)}/>
+
+          <div className="bright">
+            <p>{item.description?.substring(0, 100)}</p>
+            <BookmarkRemoveOutlinedIcon className="deleteBookmark" onClick={() => deleteBookmark(item.id)}/>
+          </div>
         </Link>
       ))}
       
-      <span className="deleteBookmarks" onClick={() => deleteBookmarks()}>
-        Delete All Bookmarks
-      </span>
+      
     </div>
   );
 };
