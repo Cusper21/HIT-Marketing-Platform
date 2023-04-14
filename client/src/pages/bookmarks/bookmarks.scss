@@ -1,112 +1,78 @@
 @import '../../color.scss';
 .bookmarks {
-    flex: 5;
-    background-color: white;
-    padding: 0px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  flex: 5;
+  background-color: white;
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-    .topbar{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+  .topbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   
+  .bcontainer{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+
     .item {
       background: $faint-blue;
       border-radius: 20px;
       padding: 10px;
-      width: 50%;
+      width: 45%;
       display: flex;
       justify-content: space-between;
       gap: 20px;
-
+  
       .bleft{
         flex: 1;
         display: flex;
         gap: 20px;
-
+  
         img {
           width: 80px;
           height: 80px;
           object-fit: cover;
           border-radius: 10px;
         }
-
+  
         .details{
           display: flex;
           flex-direction: column;
           gap: 10px;
+  
+          .price {
+            color: #2879fe;
+          }
         }
-
-
       }
-
+  
       .bright{
         flex: 1;
         display: flex;
-
+  
         p {
           flex: 5;
           font-size: 14px;
         }
-
+  
         .deleteBookmark{
           flex: 1;
-          justify-self:first baseline;
+          color: #e91426;
+          justify-self:center;
+          align-self: center;
         }
-
       }
-
-  
-      // .details {
-      //   h1 {
-      //     font-size: 18px;
-      //     font-weight: 500;
-      //   }
-  
-        
-  
-      //   .price {
-      //     color: #2879fe;
-      //   }
-      // }
-  
-      // .deleteBookmark{
-      //   color: red;
-      //   font-size: 30px;
-      //   cursor: pointer;
-      // }
-    }
-  
-    .total {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 500;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-  
-    button {
-      width: 250px;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      cursor: pointer;
-      border: none;
-      background-color: #2879fe;
-      color: white;
-      font-weight: 500;
-      margin-bottom: 20px;
-    }
-  
-    .deleteBookmarks{
-      color:red;
-      font-size: 12px;
-      cursor: pointer;
     }
   }
-  
+
+  .deleteBookmarks{
+    color:#e91426;
+    font-size: 12px;
+    cursor: pointer;
+  }
+}

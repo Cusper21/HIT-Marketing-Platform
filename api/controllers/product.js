@@ -55,6 +55,7 @@ export const getPopularProducts = (req, res) => {
         return res.status(200).send(data);
     });
 };
+
 export const fetchProducts = (req, res) => {
 
     const q = `
@@ -65,6 +66,21 @@ export const fetchProducts = (req, res) => {
     LIMIT 20`;
 
     db.query(q,[req.body.category_pfk], (err,data)=>{
+        if (err)
+        return res.status(500).send(err);
+        return res.status(200).send(data);
+    });
+};
+
+export const fetchAllProducts = (req, res) => {
+
+    const q = `
+    SELECT name, description, price, image1, size, colors, quantity, date_added
+    FROM products
+    LEFT JOIN reported_products r ON id = r.product_id_rfk
+    WHERE  ISNULL(r.product_id_rfk)`;
+
+    db.query(q, (err,data)=>{
         if (err)
         return res.status(500).send(err);
         return res.status(200).send(data);

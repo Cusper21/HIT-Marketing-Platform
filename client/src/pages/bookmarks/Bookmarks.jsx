@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./bookmarks.scss";
 import BookmarkRemoveOutlinedIcon from '@mui/icons-material/BookmarkRemoveOutlined';
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 
@@ -10,6 +10,8 @@ import { AuthContext } from "../../context/authContext";
 const Bookmarks = () => {
 
   const{currentUser} = useContext(AuthContext)
+
+  const queryClient = new useQueryClient()
 
   const { data: products } = useQuery(["bookmarks", currentUser.id], () =>
 
@@ -19,11 +21,16 @@ const Bookmarks = () => {
     { networkMode: "always" }
   )
 
-  const deleteBookmarks = ()=>{
-    
+  const deleteBookmark = async (e,productId)=>{
+    e.preventDefault();
+    await makeRequest.delete('/bookmarks?product_id_bfk='+productId)
+      .then(()=>{
+        queryClient.invalidateQueries(["bookmarks"]);
+      })
   }
-  const deleteBookmark = (productId)=>{
 
+  const deleteBookmarks = (e)=>{
+    
   }
 
   return (
@@ -31,30 +38,32 @@ const Bookmarks = () => {
       <div className="topbar">
         <h2>My Bookmarks</h2>
         <span className="deleteBookmarks" onClick={() => deleteBookmarks()}>
-          Delete All Bookmarks
+          Delete All
         </span>
       </div>
-      {products?.map((item) => (
-        <Link className="item link" key={item.id} to={`/product/${item.id}`}>
-          <div className="bleft">
-            <img src={`./upload/${item.image1}`} alt="" />
-            <div className="details">
-              <h3>{item.name}</h3>
-              <div className="price">
-                ${item.price}
-              </div>
-              {item.colour && <p>{item.colour}</p>}
-            </div>
-          </div>
+      <div className="bcontainer">
 
-          <div className="bright">
-            <p>{item.description?.substring(0, 100)}</p>
-            <BookmarkRemoveOutlinedIcon className="deleteBookmark" onClick={() => deleteBookmark(item.id)}/>
-          </div>
-        </Link>
-      ))}
-      
-      
+        {products?.map((item) => (
+          <Link className="item link" key={item.id} to={`/product/${item.id}`}>
+            <div className="bleft">
+              <img src={"../productImages/"+item.image1} alt="" />
+              <div className="details">
+                <h3>{item.name}</h3>
+                <div className="price">
+                  ${item.price}
+                </div>
+                {item.colour && <p>{item.colour}</p>}
+              </div>
+            </div>
+
+            <div className="bright">
+              <p>{item.description?.substring(0, 100)}</p>
+              <BookmarkRemoveOutlinedIcon className="deleteBookmark" onClick={(e) => { deleteBookmark(e,item.id)}}/>
+            </div>
+          </Link>
+        ))}
+      </div>
+
     </div>
   );
 };

@@ -1,0 +1,79 @@
+@import "./../../color.scss";
+
+.compare{
+    background: #131212b7;
+    height: 100vh;
+    backdrop-filter: blur(3px);
+    position:fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 12;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .close{
+        color: white;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+    
+    .container{
+        background: #f1e9e9;
+        height: 90vh;
+        width: 78vw;
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        .item{
+            height: 36px;
+            border-radius: 20px;
+            background:$bg-offwhite;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0 8px;
+
+            input{
+                width: 260px;
+                background-color: inherit;
+                border: none;
+
+                &:focus{
+                    outline: none;
+                    background-color: inherit;
+                }
+
+            }
+        }
+
+        .cProducts{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar
+            {
+                width: 5px;
+            }
+    
+            &::-webkit-scrollbar-thumb
+            {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+                background-color:$icon-dark;
+            }
+        }
+    }
+}

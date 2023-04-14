@@ -13,6 +13,7 @@ import Home from "./pages/home/Home";
 import Products from "./pages/products/Products";
 import SingleProduct from "./pages/singleProduct/SingleProduct";
 import Chat from './pages/chat/Chat'
+import CompareProducts from "./pages/compareProducts/CompareProducts";
 
 import "./app.scss";
 import Profile from "./pages/profile/Profile";
@@ -24,6 +25,7 @@ import { AuthContext } from "./context/authContext";
 import { SearchContextProvider } from './context/searchContext';
 import { ChatContextProvider } from "./context/chatContext";
 import Bookmarks from "./pages/bookmarks/Bookmarks";
+import { CompareContextProvider } from "./context/compareContext";
 
 function App() {
 
@@ -42,11 +44,13 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <div className="Layout">
           <SearchContextProvider>
-            <ChatContextProvider>
-              <Navbar/>
-              <Outlet/>
-              <Footer/>
-            </ChatContextProvider>
+            <CompareContextProvider>
+              <ChatContextProvider>
+                <Navbar/>
+                <Outlet/>
+                <Footer/>
+              </ChatContextProvider>
+            </CompareContextProvider>
           </SearchContextProvider>
         </div>
       </QueryClientProvider>
@@ -98,6 +102,10 @@ function App() {
         {
           path: "/chat",
           element: <Chat/>,
+        },
+        {
+          path: "/compare",
+          element: <CompareProducts/>,
         },
         {
           path: "/up",

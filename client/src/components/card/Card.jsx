@@ -13,10 +13,12 @@ import { makeRequest } from '../../axios.js';
 import moment from "moment"
 
 import './card.scss'
+import { CompareContext } from '../../context/compareContext';
 
 const Card = ({item}) => {
 
   const{currentUser} = useContext(AuthContext)
+  const {setProduct1,setProduct2,product1,product2,setPopUp} = useContext(CompareContext)
 
   const queryClient = new useQueryClient()
 
@@ -89,6 +91,15 @@ const Card = ({item}) => {
     }
     console.log(err)
   }
+  const handleAdd =(e)=>{
+    e.preventDefault()
+    if (!product1) {
+      setProduct1(item)
+    }else{
+      setProduct2(item)
+    }
+    setPopUp(false)
+  }
 
   return (
     <Link className='link' to={`/product/${item.id}`}>
@@ -126,6 +137,12 @@ const Card = ({item}) => {
           <div className='buttons2'>
             <button>Update</button>
             <button onClick={handleDelete}>Delete</button>
+          </div>
+        }
+
+        {window.location.pathname.includes('/compare') &&
+          <div className='buttons2'>
+            <button onClick={handleAdd}>add</button>
           </div>
         }
       </div>
