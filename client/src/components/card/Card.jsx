@@ -95,7 +95,7 @@ const Card = ({item}) => {
     e.preventDefault()
     if (!product1) {
       setProduct1(item)
-    }else{
+    }else if(!product2){
       setProduct2(item)
     }
     setPopUp(false)
