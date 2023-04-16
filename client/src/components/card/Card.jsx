@@ -106,7 +106,7 @@ const Card = ({item}) => {
       <div className='card'>
         <div className="image">
           {moment(Date.now()).diff(moment(item.date_added), 'days', true) <= 2 ? <span>New</span> : null}
-          <img src={"../productImages/"+item.image1} alt="" className='mainImg'/>
+          <img src={item.image1} alt="" className='mainImg'/>
         </div>
         <h3>{item.name}</h3>
         <div className="prices">

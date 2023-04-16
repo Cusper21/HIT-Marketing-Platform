@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './addProduct.scss'
+import {storage} from '../../firebase'
+import {v4} from 'uuid'
 import { makeRequest } from '../../axios'
-import { useMutation} from '@tanstack/react-query'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 const AddProduct = () => {
   const [image1, setImage1] = useState(null)
@@ -19,35 +21,40 @@ const AddProduct = () => {
     quantity:"",
     category_pfk:"",
     sub_category_pfk:"",
-    vendor_id_pfk:3
   })
 
-  const mutation = useMutation(
-    (filled) => {
-      if(filled){
-      const formData = new FormData();
-      formData.append('fimage', image1);
-      formData.append('simage', image2);
-      makeRequest.post("/upload", formData).then((res)=>{
-        setInputs(prev=>({...prev, image1: res.data.fimage[0].filename, image2: res.data.simage[0].filename}))
-      })
-      } else {
-        console.log('Please choose images')
-      }
-    },
-    {
-      onSuccess: async() => {
-        await makeRequest.post("products/postproducts", inputs).then((response)=>{
-          console.log(response.data)
-        })
-      },
+  const uploadImages = async () => {
+
+    const image1Ref = ref(storage, `images/${v4() + image1.name}`);
+    const image2Ref = ref(storage, `images/${v4() + image2.name}`);
+
+    await uploadBytes(image1Ref, image1).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url1) => {
+        console.log(url1)
+        setInputs((prev)=>({...prev, image1:url1}))
+      });
+    })
+
+    await uploadBytes(image2Ref, image2).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url2) => {
+        
+        setInputs((prev)=>({...prev, image2:url2}))
+        console.log(url2)
+      });
+    })
+  };
+
+  useEffect(()=>{
+
+    if(inputs.image1 !== "" && inputs.image2 !== ""){
+      makeRequest.post('/products/postproducts', inputs)
     }
-  )
+  },[inputs])
+
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    
-    mutation.mutate(image1 && image2)
+    uploadImages()
   }
   
   const handleChange = (e)=>{

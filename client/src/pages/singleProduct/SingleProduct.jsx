@@ -121,12 +121,12 @@ const SingleProduct = () => {
             <div className="left">
 
               <div className="images">
-                <img src={"../productImages/" + product.image1} alt="" onClick={(e)=> setSelectedImage("image1")}/>
-                <img src={"../productImages/" + product.image2} alt="" onClick={(e)=> setSelectedImage("image2")}/>
+                <img src={product.image1} alt="" onClick={(e)=> setSelectedImage("image1")}/>
+                <img src={product.image2} alt="" onClick={(e)=> setSelectedImage("image2")}/>
               </div>
 
               <div className="mainImage">
-                <img src={"../productImages/" + product[selectedImage]} alt="" />
+                <img src={product[selectedImage]} alt="" />
               </div>
             </div>
             

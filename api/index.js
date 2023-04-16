@@ -12,7 +12,7 @@ import bookmarkRoutes from "./routes/bookmarks.js";
 
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import multer from "multer";
+
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -31,24 +31,6 @@ app.use(cors({
     credentials: true
 }))
 app.use(cookieParser())
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '../client/public/productImages')
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' + file.originalname)
-    }
-  })
-
-const upload = multer({storage: storage })
-
-  const cpUpload = upload.fields([{ name: 'fimage', maxCount: 1 }, { name: 'simage', maxCount: 1 }])
-  app.post('/api/upload', cpUpload, function (req, res) {
-    console.log(req.files.simage[0].path)
-    
-    res.status(200).send(req.files)
-  })
 
 app.use("/api/auth", authRoutes)
 app.use("/api/chats", chatRoutes)
