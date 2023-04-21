@@ -7,7 +7,7 @@
     
     .container{
         width: 100%;
-        padding: 0 20px;
+        padding: 0 40px;
         display: flex;
         flex-direction: column;
         gap: 30px;
@@ -30,19 +30,40 @@
 
             form{
                 display: grid;
-                grid-template-columns: repeat(2,1fr);
-                gap: 30px;
+                grid-template-columns: repeat(2,320px);
+                gap: 20px;
     
                 input{
-                    width: 1fr;
-                    border: none;
-                    border-radius: 3px;
-                    border-bottom: 2px solid rgba($text-dark, .3);
+                    width: 250px;
+                    border-radius: 5px;
+                    border: 1px solid rgba($text-dark, .3);
                     padding: 10px;
     
                     &:focus{
                         outline: none;
-                        border-bottom: 2px solid rgba($accent-blue, 1);
+                        border: 1px solid rgba($accent-blue, 1);
+                    }
+                }
+
+                .file{
+                    width: 250px;
+                    border-radius: 5px;
+                    border: 1px solid rgba($text-dark, .3);
+                    padding: 5px;
+
+                    &::file-selector-button {
+                    margin-right: 10px;
+                    border: none;
+                    background: #084cdf;
+                    padding: 5px 10px;
+                    border-radius: 20px;
+                    color: #fff;
+                    cursor: pointer;
+                    transition: background .2s ease-in-out;
+                    }
+
+                    &::file-selector-button:hover {
+                    background: #0d45a5;
                     }
                 }
                 

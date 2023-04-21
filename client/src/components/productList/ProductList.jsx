@@ -7,7 +7,7 @@ import './productList.scss'
 import { makeRequest } from '../../axios'
 import { SearchContext } from '../../context/searchContext'
 
-const ProductList = ({catId, catFilters, maxPrice, sort}) => {
+const ProductList = ({catId, catFilters,minPrice, maxPrice, sort}) => {
 
   const {searchText} = useContext(SearchContext)
 
@@ -28,7 +28,7 @@ const ProductList = ({catId, catFilters, maxPrice, sort}) => {
   )
 
   const priceFilter = catfilter?.filter((item) =>
-    maxPrice !== 0 ? item.price <= maxPrice : catFilters
+    maxPrice !== 0 ? item.price >= minPrice && item.price <= maxPrice : catFilters
   )
 
   const filteredProducts = priceFilter?.filter((item) =>

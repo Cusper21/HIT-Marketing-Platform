@@ -6,7 +6,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
-
+import BalanceRoundedIcon from '@mui/icons-material/BalanceRounded';
 import "./navbar.scss"
 
 import { AuthContext } from "../../context/authContext";
@@ -96,6 +96,10 @@ const Navbar = () => {
         </div>
 
         <div className="right">
+
+          <Link className="link" to={`/compare`}>
+            <BalanceRoundedIcon/>
+          </Link>
 
           <Link className="link" to={`/chat`}>
             <ChatOutlinedIcon/>

@@ -38,6 +38,7 @@ const Profile = () => {
                         <input type="text" placeholder="Enter Type"/>
                         <input type="email" placeholder="Enter Email"/>
                         <input type="text" placeholder="Enter Username"/>
+                        <input type="file" placeholder="Enter Username" className='file'/>
                         
                         <button>
                         Submit

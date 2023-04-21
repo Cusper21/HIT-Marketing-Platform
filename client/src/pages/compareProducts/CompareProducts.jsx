@@ -5,7 +5,7 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import Compare from '../../components/comparePopUp/Compare';
 
 const CompareProducts = () => {
-    const {product1,product2, popUp, setPopUp} = useContext(CompareContext)
+    const {product1,product2,setProduct1,setProduct2, popUp, setPopUp} = useContext(CompareContext)
 
     var mergedArray = [];
     
@@ -27,34 +27,55 @@ const CompareProducts = () => {
     const togglePopUp = () =>{
         setPopUp(!popUp)
     }
-    console.log(product1,product2,mergedArray)
+    const handleClear = () =>{
+        setProduct1({})
+        setProduct2({})
+    }
 
   return (
     <div className='compareProducts'>
         <div className="header">
-            <h3>Compare Products</h3>
+            <h3>Get the value out of every Product!</h3>
         </div>
         <div className="container">
-            <div className="image">
-                <img src={"../productImages/"+product1?.image1} alt='' className='img' />
-                <img src={"../productImages/"+product2?.image1} alt='' className='img'/>
+            <div className="images">
+                <div className="image">                   
+                    <img src={product1?.image1} alt='' className='img' />
+                </div>
+                <div className="image">
+                    <img src={product2?.image1} alt='' className='img'/>
+                </div>
             </div>
+            
+            <div className="buttons">
+                <div className="button">
+                    <AddCircleRoundedIcon onClick={() => togglePopUp()}/>
+                </div>
+                <button onClick={handleClear}> clear </button>
+                <div className="button">
+                    <AddCircleRoundedIcon onClick={() => togglePopUp()}/>
+                </div>
+            </div>
+
             {
                 mergedArray?.map((key) => {
+
+                    const a=["image1","date_added"];
+
+                    if (a.includes(key)) {
+                        return null;
+                      }
+
                 return ( <div className="attribute" key={key}>
-                    <h4 className='key'>{key}</h4>
-                    <hr class="hr-text" data-content={key}/>
+                    <hr class="style-eight"  data-content={key}/>
                     <div className="details">
-                        {product1 ? <span>{product1[key]}</span> : <span>-</span>}
-                        {product2 ? <span>{product2[key]}</span> : <span>-</span>}
+                        {product1 ? <span>{product1[key]}</span> : <span> — </span>}
+                        {product2 ? <span>{product2[key]}</span> : <span> — </span>}
                     </div>
                 </div>)
                 })
             }
-            <div className="buttons">
-                {!product1 && <AddCircleRoundedIcon onClick={() => togglePopUp()}/>}
-                {!product2 && <AddCircleRoundedIcon onClick={() => togglePopUp()}/>}
-            </div>
+            
             {
                 popUp && <Compare/>
             }

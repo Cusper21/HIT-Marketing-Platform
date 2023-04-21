@@ -2,7 +2,9 @@ import React, {useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery} from '@tanstack/react-query'
 import { makeRequest } from '../../axios'
-
+import CategoryRoundedIcon from '@mui/icons-material/CategoryRounded';
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
+import SortRoundedIcon from '@mui/icons-material/SortRounded';
 import ProductList from '../../components/productList/ProductList'
 
 import './products.scss'
@@ -13,7 +15,8 @@ const Products = () => {
  
   const catId = useParams().id;
 
-  const[catFilters,setCatFilters] = useState([])
+  const [catFilters,setCatFilters] = useState([])
+  const [minPrice,setMinPrice] = useState(0);
   const [maxPrice,setMaxPrice] = useState(1000);
   const [sort,setSort] = useState('');
 
@@ -47,38 +50,75 @@ const Products = () => {
     }
   };
 
+  const handleMinPriceChange = (e) => {
+    const newMinPrice = parseInt(e.target.value);
+    if (newMinPrice < maxPrice) {
+      setMinPrice(newMinPrice);
+    } else {
+      setMinPrice(maxPrice);
+      setMaxPrice(newMinPrice);
+    }
+  };
+
+  const handleMaxPriceChange = (e) => {
+    const newMaxPrice = parseInt(e.target.value);
+    if (newMaxPrice > minPrice) {
+      setMaxPrice(newMaxPrice);
+    } else {
+      setMaxPrice(minPrice);
+      setMinPrice(newMaxPrice);
+    }
+  };
+
+
   return (
     <div className='products'>
-      <div className="sidebar">
+      <div className="sidebar1">
         
         <div className='filters'>
 
           <div className='subCategories'>
-            <h4>Sub-Categories</h4>
+            <div className="heading">
+              <CategoryRoundedIcon className='icon'/>
+              <span>Sub-Categories</span>
+            </div>
+            <div className="scContainer">
             {subCatError
               ? "Something went wrong!"
               :subcategories?.map(subcategory=>(
                 <div className="inputItem" key={subcategory.title}>
-                  <input type="checkbox" name="" id={subcategory.title} value={subcategory?.title} onChange={handleChange}/>
+                  <input type="checkbox" className="checkbox" name="" id={subcategory.title} value={subcategory?.title} onChange={handleChange}/>
                   <label htmlFor={subcategory.title}> {subcategory.title}</label>
                 </div>
               ))
             }
+            </div>
           </div>
 
           <div className='price'>
 
             <div className="filterItem">
-              <h4>Filter by Price</h4>
+            <div className="heading">
+                <FilterListRoundedIcon className='icon'/>
+                <span>Filter by Price</span>
+              </div>
+              
               <div className="priceRange">
-                <span>0</span>
-                <input type="range" name="" id="price" min={0} max={1000} onChange={(e)=> setMaxPrice(e.target.value)}/>
+                <span>{minPrice}</span>
+                <div className="range-slider">
+                  <input type="range" name="" id="price" min={0} value={minPrice} max={1000} onChange={handleMinPriceChange}/>
+                  <input type="range" name="" id="price" min={0} value={maxPrice} max={1000} onChange={handleMaxPriceChange}/>
+                </div>
                 <span>{maxPrice}</span>
               </div>
             </div>
 
             <div className="sortItem">
-              <h4>Sort by price</h4>
+              <div className="heading">
+                <SortRoundedIcon className='icon'/>
+                <span>Sort by price</span>
+              </div>
+              
               <div className="radioButton">
                 <input type="radio" name="radio" id="asc" onChange={(e)=>setSort("asc")}/>
                 <label htmlFor="asc">Ascending</label>           
@@ -102,7 +142,7 @@ const Products = () => {
             </div>
           ))
         }
-        <ProductList catId={catId} sort={sort} maxPrice={maxPrice} catFilters={catFilters} key={document.location.href}/>
+        <ProductList catId={catId} sort={sort} minPrice={minPrice} maxPrice={maxPrice}  catFilters={catFilters} key={document.location.href}/>
       </div>
     </div>
   )
