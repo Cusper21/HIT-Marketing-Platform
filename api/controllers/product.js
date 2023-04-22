@@ -29,9 +29,11 @@ export const postProducts = (req, res) => {
 export const getFeaturedProducts = (req, res) => {
 
     const q = `
-    SELECT *
-    FROM products
-    LIMIT 4`; //randomise
+    SELECT p.*, product_id_rfk
+    FROM products p
+    LEFT JOIN reported_products r ON p.id = r.product_id_rfk
+    WHERE  ISNULL(r.product_id_rfk)
+    ORDER BY RAND() LIMIT 4`; //randomise
 
     db.query(q, (err,data)=>{
         if (err)
@@ -59,16 +61,16 @@ export const getPopularProducts = (req, res) => {
 export const fetchProducts = (req, res) => {
 
     const q = `
-    SELECT *
-    FROM products
-    LEFT JOIN reported_products r ON id = r.product_id_rfk
-    WHERE  ISNULL(r.product_id_rfk) and category_pfk = ?
-    LIMIT 20`;
-
+    SELECT p.*, product_id_rfk
+    FROM products p
+    LEFT JOIN reported_products r ON p.id = r.product_id_rfk
+    WHERE  ISNULL(r.product_id_rfk) and p.category_pfk = ?`;
+    
     db.query(q,[req.body.category_pfk], (err,data)=>{
         if (err)
         return res.status(500).send(err);
         return res.status(200).send(data);
+        
     });
 };
 
@@ -76,8 +78,8 @@ export const fetchAllProducts = (req, res) => {
 
     const q = `
     SELECT name, description, price, image1, size, colors, quantity, date_added
-    FROM products
-    LEFT JOIN reported_products r ON id = r.product_id_rfk
+    FROM products p
+    LEFT JOIN reported_products r ON p.id = r.product_id_rfk
     WHERE  ISNULL(r.product_id_rfk)`;
 
     db.query(q, (err,data)=>{
@@ -96,7 +98,7 @@ export const fetchVendorProducts = (req, res) => {
         if (err) return res.status(403).send("Token is invalid!")
     
         const q = `
-        SELECT *
+        SELECT p.*, product_id_rfk
         FROM products
         LEFT JOIN reported_products r ON id = r.product_id_rfk 
         WHERE  ISNULL(r.product_id_rfk) AND vendor_id_pfk = ?;`
@@ -118,10 +120,11 @@ export const fetchReportedProducts = (req, res) => {
         if (err) return res.status(403).send("Token is invalid!")
     
             const q = `
-            SELECT *
-            FROM reported_products
-            LEFT JOIN products p ON product_id_rfk = p.id 
-            WHERE vendor_id_rfk = ?;`
+            SELECT p.*, product_id_rfk, vendor_id_rfk, customer_id_rfk
+            FROM reported_products r
+            LEFT JOIN products p ON r.product_id_rfk = p.id 
+            WHERE r.vendor_id_rfk = ?
+            GROUP BY r.product_id_rfk;`
     
         db.query(q, [data.id], (err,data)=>{
             if (err)
@@ -135,7 +138,7 @@ export const fetchReportedProducts = (req, res) => {
 export const fetchProduct = (req, res) => {
 
     const q = `
-    SELECT p.*, v.name as vendor_name,v.profile_picture,v.address
+    SELECT p.*,v.name, type, address, cell, profile_picture
     FROM products p
     LEFT JOIN vendors v ON vendor_id_pfk = v.id 
     WHERE p.id = ?;`;
@@ -164,6 +167,26 @@ export const deleteProduct = (req, res) => {
             if (err)
             return res.status(500).send(err);
             return res.status(200).send("Product deleted!");
+        });
+    })    
+};
+
+export const reportProduct = (req, res) => {
+    const token = req.cookies.accessToken;
+
+    if(!token) return res.status(401).send("User is not logged in!")
+
+    jwt.verify(token, secret, (err,data)=>{
+        if (err) return res.status(403).send("Token is invalid!")
+    
+        const q = `
+        INSERT INTO reported_products(product_id_rfk, vendor_id_rfk, customer_id_rfk)
+        VALUES(?,?,?)`
+    
+        db.query(q,[req.body.id, req.body.vendor_id_pfk, data.id], (err,data)=>{
+            if (err)
+            return res.status(500).send(err);
+            return res.status(200).send("Product reported!");
         });
     })    
 };

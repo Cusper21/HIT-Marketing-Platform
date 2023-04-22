@@ -23,13 +23,13 @@ export const like = (req,res) =>{
 
     jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
-    
+        
             const q = `
             INSERT INTO likes
             (customer_id_wfk ,product_id_wfk)
             VALUES
             (?,?);`
-
+            
             db.query(q, [data.id, req.query.product_id_wfk], (err,data)=>{
                 if (err)
                 return res.status(500).send(err);

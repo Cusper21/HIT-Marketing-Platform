@@ -30,8 +30,8 @@
 
             form{
                 display: grid;
-                grid-template-columns: repeat(2,320px);
-                gap: 20px;
+                grid-template-columns: repeat(2,1fr);
+                gap: 30px;
     
                 input{
                     width: 250px;

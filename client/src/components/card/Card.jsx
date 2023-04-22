@@ -25,8 +25,10 @@ const Card = ({item}) => {
   const likeMutation = useMutation(
     (liked) => {
       if (liked)
+      
       return makeRequest.delete('/likes?product_id_wfk='+item.id)
       return makeRequest.post('/likes?product_id_wfk='+item.id)
+      
     },
     {
       onSuccess: () => {
@@ -66,13 +68,12 @@ const Card = ({item}) => {
 
   const handleLike = (e) => {
     e.preventDefault()
-
+    console.log(item)
     likeMutation.mutate(likes.includes(currentUser.id))
   }
 
   const handleBookmark = (e) => {
     e.preventDefault()
-
     bookmarkMutation.mutate(bookmarks.includes(currentUser.id))
   }
 
@@ -85,12 +86,13 @@ const Card = ({item}) => {
     e.preventDefault()
 
     try {
-      makeRequest.get( `http://localhost:8800/api/products/delete`,inputs)
+      makeRequest.get( `products/delete`,inputs)
     } catch (error) {
       setErr(error)
     }
     console.log(err)
   }
+
   const handleAdd =(e)=>{
     e.preventDefault()
     if (!product1) {
@@ -99,6 +101,24 @@ const Card = ({item}) => {
       setProduct2(item)
     }
     setPopUp(false)
+  }
+
+  const reportMutation = useMutation(
+    (reported) => {
+      if (reported)
+      console.log(item)
+      return makeRequest.post('products/reportproduct', item)
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["products"]);
+      },
+    }
+  )
+
+  const handleReport =(e)=>{
+    e.preventDefault()
+    reportMutation.mutate(item)
   }
 
   return (
@@ -129,7 +149,7 @@ const Card = ({item}) => {
             : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleBookmark}/>}
           </div>
 
-          <FlagRoundedIcon style={{ height:"20px"}}/>
+          <FlagRoundedIcon style={{ height:"20px"}} onClick={handleReport}/>
         </div>
         }
 

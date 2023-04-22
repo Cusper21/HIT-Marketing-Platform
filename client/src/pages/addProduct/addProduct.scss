@@ -30,19 +30,33 @@
 
             form{
                 display: grid;
-                grid-template-columns: repeat(2,1fr);
+                grid-template-columns: repeat(2,300px);
                 gap: 30px;
     
                 input{
-                    width: 1fr;
-                    border: none;
-                    border-radius: 3px;
-                    border-bottom: 2px solid rgba($text-dark, .3);
-                    padding: 10px;
+                    width: 250px;
+                    border-radius: 5px;
+                    border: 1px solid rgba($text-dark, .3);
+                    padding: 5px;
     
                     &:focus{
                         outline: none;
-                        border-bottom: 2px solid rgba($accent-blue, 1);
+                        border: 1px solid rgba($accent-blue, 1);
+                    }
+
+                    &::file-selector-button {
+                        margin-right: 10px;
+                        border: none;
+                        background: #2c8cf4;
+                        padding: 5px 10px;
+                        border-radius: 20px;
+                        color: #fff;
+                        cursor: pointer;
+                        transition: background .2s ease-in-out;
+                        }
+    
+                    &::file-selector-button:hover {
+                    background: #2c8cf4;
                     }
                 }
                 

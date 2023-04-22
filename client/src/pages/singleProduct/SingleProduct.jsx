@@ -36,7 +36,7 @@ const SingleProduct = () => {
     }),
     { networkMode: "always" }
   )
-
+    console.log(productInfo)
   const { data: likes } = useQuery(["likes", productId], () =>
     makeRequest.get("/likes/?product_id_wfk="+productId).then((res) => {
       return res.data
@@ -110,6 +110,12 @@ const SingleProduct = () => {
     })
   }
 
+  const handleReport = async(product)=>{
+    await makeRequest.post('products/reportproduct', product).then(()=>{
+      navigate(-1)
+    })
+  }
+
   return (
     <div>
       {error
@@ -151,7 +157,7 @@ const SingleProduct = () => {
                 ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleBookmark}/>
                 : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleBookmark}/>}
                 </div>
-                <FlagRoundedIcon style={{ height:"20px"}}/>
+                <FlagRoundedIcon style={{ height:"20px"}} onClick={() => {handleReport(product)}}/>
               
                 <Link className='link' to=''>
                   <BalanceRoundedIcon/> Compare
