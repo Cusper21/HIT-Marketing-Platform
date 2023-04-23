@@ -6,10 +6,12 @@ import Card from '../card/Card'
 import './productList.scss'
 import { makeRequest } from '../../axios'
 import { SearchContext } from '../../context/searchContext'
+import { AuthContext } from '../../context/authContext'
 
 const ProductList = ({catId, catFilters,minPrice, maxPrice, sort}) => {
 
   const {searchText} = useContext(SearchContext)
+  const {currentUser} = useContext(AuthContext)
 
   const { error: productError, isLoading, data: products } = useQuery(["products", {category_pfk:catId}], () =>
 
@@ -35,12 +37,12 @@ const ProductList = ({catId, catFilters,minPrice, maxPrice, sort}) => {
     searchText ? item.name.toLowerCase().indexOf(searchText) !== -1 : priceFilter
   )
 
-  const dateSort = filteredProducts?.sort((x,y) =>
+  const dateSortedProducts = filteredProducts?.sort((x,y) =>
      { return new Date(y.date_added)  - new Date(x.date_added)
     }
   )
-
-  const sortProducts = dateSort?.sort((x,y) =>
+  
+  const priceSort = dateSortedProducts?.sort((x,y) =>
      {if(sort === 'asc')
       return x.price - y.price
       else if(sort === 'desc')
@@ -48,6 +50,15 @@ const ProductList = ({catId, catFilters,minPrice, maxPrice, sort}) => {
       else return filteredProducts
     }
   )
+  const pref = currentUser.preferences ? JSON.parse(currentUser.preferences) : []
+  const favoriteData = priceSort?.filter((item) => pref.includes(item.sub_category_pfk)) || []
+  // filter the data to get items NOT in the user's favorite categories
+  const nonFavoriteData = priceSort?.filter((item) => !pref.includes(item.sub_category_pfk)) || []
+
+  // combine the favorite and non-favorite data arrays, randomizing the order of the favorites
+  const randomizedFavorites = favoriteData.sort(() => 0.5 - Math.random())
+  const sortedData = [...randomizedFavorites, ...nonFavoriteData]
+
      
   return (
     <div className='productList'>
@@ -55,7 +66,7 @@ const ProductList = ({catId, catFilters,minPrice, maxPrice, sort}) => {
         ? <span>Something went wrong</span>
         :isLoading
         ? <span>Loading...</span>
-        :sortProducts?.map(item=>(
+        :sortedData?.map(item=>(
           <Card item = {item} key={item.id}/>
         ))
       }

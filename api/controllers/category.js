@@ -12,6 +12,7 @@ export const fetchAllCategories = (req, res) => {
         return res.status(200).send(data);
     });
 };
+
 export const fetchCategory = (req, res) => {
     
     const q = `
@@ -32,6 +33,20 @@ export const fetchSubCategories = (req, res) => {
     SELECT *
     FROM sub_categories
     WHERE category_sfk = ?
+    LIMIT 20`;
+
+    db.query(q,[req.body.category_sfk], (err,data)=>{
+        if (err)
+        return res.status(500).send(err);
+        return res.status(200).send(data);
+    });
+};
+
+export const fetchAllSubCategories = (req, res) => {
+
+    const q = `
+    SELECT *
+    FROM sub_categories
     LIMIT 20`;
 
     db.query(q,[req.body.category_sfk], (err,data)=>{

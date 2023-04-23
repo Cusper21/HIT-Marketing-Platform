@@ -41,7 +41,7 @@ function App() {
   
   const DefaultLayout = () =>{
     return(
-      <QueryClientProvider client={queryClient}>
+      
         <div className="Layout">
           <SearchContextProvider>
             <CompareContextProvider>
@@ -53,7 +53,6 @@ function App() {
             </CompareContextProvider>
           </SearchContextProvider>
         </div>
-      </QueryClientProvider>
     )
   }
   
@@ -161,7 +160,9 @@ function App() {
 
   return (
     <div className="app">
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </div>
   );
 }

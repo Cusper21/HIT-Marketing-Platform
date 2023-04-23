@@ -40,7 +40,7 @@ const CompanyRegistration = () => {
         Company Registration
       </h2>
 
-      <form action="">
+      <div className="input">
         <input type="text" placeholder="Enter Company Name" name='name'  onChange={handleChange}/>
         <input type="text" placeholder="Enter Type" name='type' onChange={handleChange}/>
         <input type="text" placeholder="Enter Address" name='address' onChange={handleChange}/>
@@ -64,7 +64,7 @@ const CompanyRegistration = () => {
           </Link>
         </div>
 
-      </form>
+      </div>
     </div>
   )
 }

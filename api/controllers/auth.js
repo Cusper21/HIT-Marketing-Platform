@@ -23,11 +23,11 @@ export const registerCustomer = (req, res) => {
         BEGIN;
         INSERT INTO customers(first_name, last_name, gender, date_of_birth)
         VALUES (?);
-        INSERT INTO login(username, email, password, customer_id_lfk)
+        INSERT INTO login(username, email, password, preferences, customer_id_lfk)
         VALUES(?,(Select max(id) from customers));
         COMMIT;`;
 
-        const values = [[req.body.first_name,req.body.last_name,req.body.gender,req.body.date_of_birth],[req.body.username,req.body.email,hashedPassword]];
+        const values = [[req.body.first_name,req.body.last_name,req.body.gender,req.body.date_of_birth],[req.body.username,req.body.email,hashedPassword,req.body.preferences]];
 
         db.query(q,values,(err,data)=>{
             if (err)
@@ -73,7 +73,7 @@ export const registerVendor = (req, res) => {
 export const login = (req, res) => {
 
     const q = `
-    SELECT username, email, login.password, IFNULL(customer_id_lfk, vendor_id_lfk)id ,gender, IFNULL(first_name, name)name,IFNULL(c.profile_picture, v.profile_picture)profile_picture
+    SELECT username, email, login.password, preferences, IFNULL(customer_id_lfk, vendor_id_lfk)id ,gender, IFNULL(first_name, name)name,IFNULL(c.profile_picture, v.profile_picture)profile_picture
     FROM login
     LEFT JOIN customers c ON customer_id_lfk = c.id
     LEFT JOIN vendors v ON vendor_id_lfk = v.id

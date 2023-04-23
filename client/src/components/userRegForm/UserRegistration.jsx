@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from 'react-modal';
 import axios from "axios";
+import "./userRegistraion.scss"
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
 
 const UserRegistration = () => {
 
@@ -11,11 +15,29 @@ const UserRegistration = () => {
     date_of_birth:"",
     username:"",
     email:"",
-    password:""
+    password:"",
+    preferences:[]
   })
+
+  Modal.setAppElement(document.getElementById('right'))
+
+  console.log(inputs)
+
+  const { error: subCatError, data: subcategories } = useQuery(["subcategories"], () =>
+    makeRequest.post("/categories/", ).then((res) => {
+      return res.data
+    }),
+    { networkMode: "always" }
+  )
 
   const [err, setErr] = useState(null)
   const navigate = useNavigate()
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   const handleChange = (e)=>{
     setInputs(prev=>({...prev, [e.target.name]:e.target.value}))
@@ -25,8 +47,11 @@ const UserRegistration = () => {
     e.preventDefault()
 
     try {
-
-      await axios.post("http://localhost:8800/api/auth/registercustomer",inputs)
+      const preferencesStr = JSON.stringify(inputs.preferences);
+      await axios.post("http://localhost:8800/api/auth/registercustomer",{
+        ...inputs,
+        preferences: preferencesStr
+      })
       navigate("/login")
 
     } catch (err) {
@@ -34,15 +59,25 @@ const UserRegistration = () => {
     }
   }
 
-  console.log(err)
+
+
+  const handleCheckboxChange = (e) => {
+   
+      setInputs(prev=>({
+        ...prev, 
+        preferences: e.target.checked
+        ?[...inputs.preferences, e.target.value]
+        :inputs.preferences.filter((selectedSubCategory) =>selectedSubCategory !== e.target.value)
+      }))
+  };
 
   return (
-    <div className="right">
+    <div className="right" id="right">
       <h2>
         User Registration
       </h2>
 
-      <form action="">
+      <div className="input">
         <input type="text" placeholder="Enter First Name" name="first_name" onChange={handleChange}/>
         <input type="text" placeholder="Enter Last Name" name="last_name" onChange={handleChange}/>
         <input type="menu" placeholder="Gender" name="gender" onChange={handleChange}/>
@@ -53,7 +88,7 @@ const UserRegistration = () => {
         <input type="password" placeholder="Re-Enter Password" name="password" onChange={handleChange}/>
 
         <div>
-          {err && err}
+
           <button onClick={handleClick}>
             Register
           </button>
@@ -69,7 +104,31 @@ const UserRegistration = () => {
           </Link>
         </div>
 
-      </form>
+        <button onClick={handleModal}>Close Modal</button>
+
+      </div>
+
+      <Modal isOpen={isModalOpen} onRequestClose={handleModal}>
+        <div className="heading">
+          <span>Sub-Categories</span>
+        </div>
+        <div className='subCategories'>
+            
+          <div className="scContainer">
+          {subCatError
+            ? "Something went wrong!"
+            :subcategories?.map(subcategory=>(
+              <div className="inputItem" key={subcategory.title}>
+                <input type="checkbox" className="checkbox" name="" id={subcategory.title} value={subcategory?.title} onChange={handleCheckboxChange}/>
+                <label htmlFor={subcategory.title}> {subcategory.title}</label>
+              </div>
+            ))
+          }
+          </div>
+        </div>
+        <button onClick={handleModal}>Close Modal</button>
+      </Modal>
+
     </div>
   )
 }
