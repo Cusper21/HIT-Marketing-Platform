@@ -99,8 +99,8 @@ export const fetchVendorProducts = (req, res) => {
     
         const q = `
         SELECT p.*, product_id_rfk
-        FROM products
-        LEFT JOIN reported_products r ON id = r.product_id_rfk 
+        FROM products p
+        LEFT JOIN reported_products r ON p.id = r.product_id_rfk 
         WHERE  ISNULL(r.product_id_rfk) AND vendor_id_pfk = ?;`
     
         db.query(q, [data.id], (err,data)=>{
@@ -138,7 +138,7 @@ export const fetchReportedProducts = (req, res) => {
 export const fetchProduct = (req, res) => {
 
     const q = `
-    SELECT p.*,v.name, type, address, cell, profile_picture
+    SELECT p.*,v.name as vname, type, address, cell, profile_picture
     FROM products p
     LEFT JOIN vendors v ON vendor_id_pfk = v.id 
     WHERE p.id = ?;`;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 
 import Card from '../../components/card/Card'
 
 import './manageProducts.scss'
+import { makeRequest } from '../../axios'
 
 const ManageProducts = () => {
 
@@ -17,7 +17,7 @@ const ManageProducts = () => {
       
       try {
 
-        const res = await axios.get(`http://localhost:8800/api/products/vendor`, {
+        const res = await makeRequest.get(`http://localhost:8800/api/products/vendor`, {
           withCredentials:true
         })
         setProducts(res.data)

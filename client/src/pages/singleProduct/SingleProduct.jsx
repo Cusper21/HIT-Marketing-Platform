@@ -176,7 +176,7 @@ const SingleProduct = () => {
 
               <div className='info'>
                 <h4>Vendor info</h4>
-                <span>Name: {product.vendor_name}</span>
+                <span>Name: {product.vname}</span>
                 <span>Address: {product.address}</span>
                 <div className='link1' onClick={() => handleClick(product)}>
                   <ChatOutlinedIcon/> Contact Vendor
