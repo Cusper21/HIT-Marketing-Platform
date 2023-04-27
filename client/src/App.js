@@ -18,7 +18,7 @@ import CompareProducts from "./pages/compareProducts/CompareProducts";
 import "./app.scss";
 import Profile from "./pages/profile/Profile";
 import AddProduct from "./pages/addProduct/AddProduct";
-import ManageProducts from "./pages/manageProducts/ManageProducts";
+import ManageProducts from "./pages/products/manageProducts/ManageProducts";
 import ReportedProducts from "./pages/reportedProducts/ReportedProducts";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
@@ -26,6 +26,7 @@ import { SearchContextProvider } from './context/searchContext';
 import { ChatContextProvider } from "./context/chatContext";
 import Bookmarks from "./pages/bookmarks/Bookmarks";
 import { CompareContextProvider } from "./context/compareContext";
+import Users from "./pages/manageUsers/Users";
 
 function App() {
 
@@ -116,6 +117,14 @@ function App() {
           children:[
             {
               path: "/up",
+              element: <Profile/>
+            },
+            {
+              path: "/up/manageusers",
+              element: <Users/>
+            },
+            {
+              path: "/up/manageproducts",
               element: <Profile/>
             },
             {

@@ -85,7 +85,7 @@ const Navbar = () => {
         </div>
 
         <div className="center">
-          {!window.location.pathname.includes('/products/')
+          {(!window.location.pathname.includes('/products/') || !window.location.pathname.includes('/manageusers'))
             ? ''
             :<div className="item">
               <SearchRoundedIcon/>

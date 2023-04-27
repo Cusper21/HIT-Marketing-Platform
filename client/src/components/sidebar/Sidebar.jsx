@@ -43,6 +43,24 @@ const Sidebar = () => {
           
         </div>
       }
+
+      {currentUser.id.includes('A') &&
+        <div className="links">
+
+          <Link className='link' to={`/up`}>
+            <h4>Profile page</h4>
+          </Link>
+
+          <Link className='link' to='/up/manage'>
+            <h4>Manage Users</h4>
+          </Link>
+
+          <Link className='link' to='/up/reported'>
+            <h4>Manage Reported Products</h4>
+          </Link>
+          
+        </div>
+      }
     </div>
   )
 }
