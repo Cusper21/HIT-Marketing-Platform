@@ -59,8 +59,6 @@ const UserRegistration = () => {
     }
   }
 
-
-
   const handleCheckboxChange = (e) => {
    
       setInputs(prev=>({

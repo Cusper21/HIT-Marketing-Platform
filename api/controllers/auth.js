@@ -52,17 +52,17 @@ export const registerVendor = (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
-        const q = `
+        const q2 = `
         BEGIN;
-        INSERT INTO vendors(name, type, address, cell, profile_picture)
-        VALUES (?);
+        INSERT INTO vendors(name, type, address, cell, profile_picture,ban)
+        VALUES (?,0);
         INSERT INTO login(username, email, password, vendor_id_lfk)
         VALUES(?,(Select max(id) from vendors));
         COMMIT;`;
 
         const values = [[req.body.name,req.body.type,req.body.address,req.body.cell,req.body.profile_picture],[req.body.username,req.body.email,hashedPassword]];
 
-        db.query(q,values,(err,data)=>{
+        db.query(q2,values,(err,data)=>{
             if (err)
             return res.status(500).send(err);
             return res.status(200).send("User handle created!");
@@ -73,11 +73,12 @@ export const registerVendor = (req, res) => {
 export const login = (req, res) => {
 
     const q = `
-    SELECT username, email, login.password, preferences, IFNULL(customer_id_lfk, vendor_id_lfk)id ,gender, IFNULL(first_name, name)name,IFNULL(c.profile_picture, v.profile_picture)profile_picture
+    SELECT username, email, login.password, preferences, coalesce(customer_id_lfk, vendor_id_lfk, admin_id)id ,gender, IFNULL(first_name, name)name,coalesce(c.profile_picture, v.profile_picture, a.profile_picture)profile_picture
     FROM login
     LEFT JOIN customers c ON customer_id_lfk = c.id
     LEFT JOIN vendors v ON vendor_id_lfk = v.id
-    WHERE (c.id is not null or v.id is not null) and login.username = ?;`
+    LEFT JOIN administration a ON admin_id = a.id
+    WHERE (c.id is not null or v.id is not null or a.id is not null) and login.username = ?;`
 
     db.query(q,[req.body.username], (err,data) => {
 

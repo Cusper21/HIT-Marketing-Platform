@@ -11,30 +11,30 @@ import { CompareContext } from '../../context/compareContext';
 
 const Compare = () => {
 
-    const {setPopUp} = useContext(CompareContext)
+  const {setPopUp} = useContext(CompareContext)
 
-    const {searchText, setSearchText} = useContext(SearchContext)
+  const {searchText, setSearchText} = useContext(SearchContext)
 
-    const { error: productError, isLoading, data: products } = useQuery(["products"], () =>
+  const { error: productError, isLoading, data: products } = useQuery(["products"], () =>
 
-    makeRequest.get("/products/").then((res) => {
-      return res.data
-    }),
-    { networkMode: "always" }
+  makeRequest.get("/products/").then((res) => {
+    return res.data
+  }),
+  { networkMode: "always" }
   )
 
-    const filteredProducts = products?.filter((item) =>
-        searchText ? item.name.toLowerCase().indexOf(searchText) !== -1 : products
-    )
+  const filteredProducts = products?.filter((item) =>
+      searchText ? item.name.toLowerCase().indexOf(searchText) !== -1 : products
+  )
 
-    const handleChange = (e)=>{
-        setSearchText(e.target.value.toLowerCase())
-      }
+  const handleChange = (e)=>{
+      setSearchText(e.target.value.toLowerCase())
+    }
 
-      function clearInput(){
-        document.getElementById("search").value = '';
-        setSearchText(null);
-      }
+    function clearInput(){
+      document.getElementById("search").value = '';
+      setSearchText(null);
+    }
 
   return (
     <div className='compare' onClick={()=>{setSearchText(); setPopUp(false)}}>

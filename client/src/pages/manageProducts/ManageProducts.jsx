@@ -17,9 +17,7 @@ const ManageProducts = () => {
       
       try {
 
-        const res = await makeRequest.get(`http://localhost:8800/api/products/vendor`, {
-          withCredentials:true
-        })
+        const res = await makeRequest.get(`/products/vendor`)
         setProducts(res.data)
         
       } catch (err) {

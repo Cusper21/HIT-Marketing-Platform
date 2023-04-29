@@ -18,7 +18,7 @@ import CompareProducts from "./pages/compareProducts/CompareProducts";
 import "./app.scss";
 import Profile from "./pages/profile/Profile";
 import AddProduct from "./pages/addProduct/AddProduct";
-import ManageProducts from "./pages/products/manageProducts/ManageProducts";
+import ManageProducts from "./pages/manageProducts/ManageProducts";
 import ReportedProducts from "./pages/reportedProducts/ReportedProducts";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
@@ -27,6 +27,9 @@ import { ChatContextProvider } from "./context/chatContext";
 import Bookmarks from "./pages/bookmarks/Bookmarks";
 import { CompareContextProvider } from "./context/compareContext";
 import Users from "./pages/manageUsers/Users";
+import ManageAllProducts from "./pages/manageAllProducts/ManageAllProducts";
+import VendorProfile from "./pages/vendorProfile/VendorProfile";
+import ChangePassword from "./pages/changePassword/ChangePassword";
 
 function App() {
 
@@ -81,6 +84,14 @@ function App() {
     }
     return <Navigate to="/up"/>
   }
+
+  const ProtectedRoute3 = ({children})=>{
+    
+    if(currentUser.id.includes('A')){
+      return children
+    }
+    return <Navigate to="/up"/>
+  }
   
   const router = createBrowserRouter([
     {
@@ -116,16 +127,28 @@ function App() {
             </div>,
           children:[
             {
+              path: "/up/changepassword",
+              element: <ChangePassword/>
+            },
+            {
               path: "/up",
-              element: <Profile/>
+              element: <ProtectedRoute1><Profile/></ProtectedRoute1>
+            },
+            {
+              path: "/up/vendor",
+              element: <ProtectedRoute2><VendorProfile/></ProtectedRoute2>
+            },
+            {
+              path: "/up/admin",
+              element: <ProtectedRoute3><Users/></ProtectedRoute3>
             },
             {
               path: "/up/manageusers",
-              element: <Users/>
+              element: <ProtectedRoute3><Users/></ProtectedRoute3>
             },
             {
               path: "/up/manageproducts",
-              element: <Profile/>
+              element: <ProtectedRoute3><ManageAllProducts/></ProtectedRoute3>
             },
             {
               path: "/up/bookmarks",

@@ -19,13 +19,16 @@ const Sidebar = () => {
           <Link className='link' to={`/up/bookmarks`}>
             <h4>Bookmarks</h4>
           </Link>
+          <Link className='link' to={`/up/changepassword`}>
+            <h4>Change Password</h4>
+          </Link>
         </div>
       }
       
       {currentUser.id.includes('V') &&
         <div className="links">
 
-          <Link className='link' to={`/up`}>
+          <Link className='link' to={`/up/vendor`}>
             <h4>Profile page</h4>
           </Link>
 
@@ -40,6 +43,10 @@ const Sidebar = () => {
           <Link className='link' to='/up/reported'>
             <h4>Reported Products</h4>
           </Link>
+
+          <Link className='link' to={`/up/changepassword`}>
+            <h4>Change Password</h4>
+          </Link>
           
         </div>
       }
@@ -51,16 +58,24 @@ const Sidebar = () => {
             <h4>Profile page</h4>
           </Link>
 
-          <Link className='link' to='/up/manage'>
+          <Link className='link' to='/up/manageusers'>
             <h4>Manage Users</h4>
           </Link>
 
-          <Link className='link' to='/up/reported'>
-            <h4>Manage Reported Products</h4>
+          <Link className='link' to='/up/manageproducts'>
+            <h4>Manage Products</h4>
           </Link>
-          
+
+          <Link className='link' to={`/up/changepassword`}>
+            <h4>Change Password</h4>
+          </Link>
         </div>
       }
+
+
+      
+
+
     </div>
   )
 }

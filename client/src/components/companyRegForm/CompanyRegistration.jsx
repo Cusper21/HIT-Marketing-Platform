@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom"
-import axios from "axios";
+import { makeRequest } from '../../axios';
 
 const CompanyRegistration = () => {
 
@@ -26,8 +26,7 @@ const CompanyRegistration = () => {
     e.preventDefault()
 
     try {
-      await axios.post("http://localhost:8800/api/auth/registervendor",inputs)
-      navigate("/login")
+      await makeRequest.post("/auth/registervendor",inputs)
     } catch (err) {
 
       setErr(err)
@@ -47,10 +46,10 @@ const CompanyRegistration = () => {
         <input type="number" placeholder="Enter Cell" name='cell' onChange={handleChange}/>
         <input type="email" placeholder="Enter Email" name='email' onChange={handleChange}/>
         <input type="text" placeholder="Enter Username" name='username' onChange={handleChange}/>
-        <input type="password" placeholder="Enter Password"name='password' onChange={handleChange}/>
-        <input type="password" placeholder="Re-Enter Password" onChange={handleChange}/>
+        <input type="password" placeholder="Enter Password" name='password' onChange={handleChange}/>
+        <input type="password" placeholder="Re-Enter Password" name='cpassword' onChange={handleChange}/>
 
-        <span>{err&&err}</span>
+        <span></span>
         <button onClick={handleClick}>
           Register
         </button>

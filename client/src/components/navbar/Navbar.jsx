@@ -111,7 +111,13 @@ const Navbar = () => {
             <span>0</span>
           </Link>
 
-          <Link className="link" to={`/up`}>
+          <Link className="link" to={
+            currentUser.id.includes('C')
+            ? `/up`
+            : currentUser.id.includes('V') 
+            ? `/up/vendor`
+            : `/up/admin`
+            }>
             <div className="navProfile">
               <img src={currentUser.profile_picture} alt="" />
             </div>

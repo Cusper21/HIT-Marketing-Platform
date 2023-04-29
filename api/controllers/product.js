@@ -74,13 +74,27 @@ export const fetchProducts = (req, res) => {
     });
 };
 
-export const fetchAllProducts = (req, res) => {
+export const fetchCleanProducts = (req, res) => {
 
     const q = `
     SELECT name, description, price, image1, size, colors, quantity, date_added
     FROM products p
     LEFT JOIN reported_products r ON p.id = r.product_id_rfk
     WHERE  ISNULL(r.product_id_rfk)`;
+
+    db.query(q, (err,data)=>{
+        if (err)
+        return res.status(500).send(err);
+        return res.status(200).send(data);
+    });
+};
+
+export const fetchAllProducts = (req, res) => {
+
+    const q = `
+    SELECT p.id, name, description, price, image1, size, colors, quantity, date_added,product_id_rfk
+    FROM products p
+    LEFT JOIN reported_products r ON p.id = r.product_id_rfk`
 
     db.query(q, (err,data)=>{
         if (err)
@@ -158,16 +172,53 @@ export const deleteProduct = (req, res) => {
     jwt.verify(token, secret, (err,data)=>{
         if (err) return res.status(403).send("Token is invalid!")
     
-        const q = `
-        DELETE
-        FROM products
-        WHERE id = ? and vendor_id_pfk = `;
+        let q = '';
+        if (data.id === 'Admin') {
+            q = `
+            DELETE
+            FROM products
+            WHERE id = ?`;
+        } else {
+            q = `
+            DELETE
+            FROM products
+            WHERE id = ? and vendor_id_pfk = ?`;
+        }
+
+        const params = [req.body.id];
+        if (data.id !== 'admin') {
+            params.push(data.id);
+        }
     
-        db.query(q,[req.body.id, data.id], (err,data)=>{
+        db.query(q,params, (err,data)=>{
             if (err)
             return res.status(500).send(err);
             return res.status(200).send("Product deleted!");
         });
+    })    
+};
+
+export const restoreProduct = (req, res) => {
+    const token = req.cookies.accessToken;
+
+    if(!token) return res.status(401).send("User is not logged in!")
+
+    jwt.verify(token, secret, (err,data)=>{
+        if (err) return res.status(403).send("Token is invalid!")
+
+        if(data.id==='Admin'){
+                const q = `
+                DELETE
+                FROM reported_products
+                WHERE product_id_rfk = ?`;
+        
+            db.query(q,req.body.id, (err,data)=>{
+                if (err)
+                return res.status(500).send(err);
+                return res.status(200).send("Product deleted!");
+            });
+
+        }
     })    
 };
 

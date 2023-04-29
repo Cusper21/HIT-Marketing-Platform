@@ -1,73 +1,70 @@
-import React, { useContext } from 'react'
-import { AuthContext } from '../../context/authContext'
-
+import React, { useState } from 'react'
 import './profile.scss'
+import { useQuery } from '@tanstack/react-query';
+import { makeRequest } from '../../axios';
+import moment from "moment"
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../firebase';
+import {v4} from 'uuid'
 
 const Profile = () => {
+    
+    const [image1, setImage1] = useState(null)
+ 
+    const { error, isLoading, data: userprofile } = useQuery(["userprofile"], () =>
+        makeRequest.get("/users/profile").then((res) => {
+            return res.data
+        }),
+        { networkMode: "always" }
+    )
 
-    const {currentUser} = useContext(AuthContext)
+    const uploadImage = async () => {
+        const image1Ref = ref(storage, `images/${v4() + image1.name}`);
+        await uploadBytes(image1Ref, image1).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then(async(url1) => {
+            const res = await makeRequest.put('/users/updatepic', {url:url1})
+            if (res.data.affectedRows){
+                alert(res.data)
+            }
+          });
+        })
+      };
+      
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        if(image1){
+            uploadImage()
+        }else{
+            alert('choose image first')
+        }
+    }
 
   return (
     <div className='profile'>
-        <div className="container">
-            <div className='catImage'>
-                <img src={currentUser.profile_picture} alt="" />
-                <button>
-                Change Profile Picture
-                </button>
+        {error ? alert('Something went wrong!')
+        : isLoading ? "Loading"
+        : userprofile?.map(user=>(
+        <div className="ucard" key={user.id}>
+            <div className="left">
+                <img src={user.profile_picture} alt="" />
+                <input type="file" name="" id="" className='file' onChange={(e)=> setImage1(e.target.files[0])}/>
+                <button onClick={handleFormSubmit}>Save</button>
             </div>
-            <div className="userInfo">
-                {currentUser.id.includes('C') && 
-                    <form action=""  >
-                        <input type="text" placeholder="Enter Firstname" />
-                        <input type="text" placeholder="Enter Surname"/>
-                        <input type="date" placeholder="Enter D.O.B"/>
-                        <input type="menu" placeholder="Enter Gender"/>
-                        <input type="email" placeholder="Enter Email"/>
-                        <input type="text" placeholder="Enter Username"/>
-                        <button>
-                        Save
-                        </button>
-                    </form>
-                }
-
-                {currentUser.id.includes('V') && 
-                    <form action="">
-                        <input type="text" placeholder="Enter Company Name"/>
-                        <input type="text" placeholder="Enter Address"/>
-                        <input type="text" placeholder="Enter Type"/>
-                        <input type="email" placeholder="Enter Email"/>
-                        <input type="text" placeholder="Enter Username"/>
-                        <input type="file" placeholder="Enter Username" className='file'/>
-                        
-                        <button>
-                        Submit
-                        </button>
-                    </form>
-                }
-
-                {currentUser.id.includes('A') && 
-                    <form action="">
-                        <input type="text" placeholder="Enter Company Name"/>
-                        <input type="text" placeholder="Enter Address"/>
-                        <input type="text" placeholder="Enter Type"/>
-                        <input type="email" placeholder="Enter Email"/>
-                        <input type="text" placeholder="Enter Username"/>
-                        <input type="file" placeholder="Enter Username" className='file'/>
-                        
-                        <button>
-                        Submit
-                        </button>
-                    </form>
-                }
-                
+            <div className="right">
+                <h3>{user.first_name}</h3>
+                <span className='username'>@{user.username}</span>
+                <span className='username'>{user.email}</span>
+                <span className='title'>{user.id.includes("V") ? "Vendor": "Customer"}</span>
+                <hr className="style-eight"  data-content='Personal Information'/>
+                <div className="information">
+                    <span className='item'>First Name : {user.first_name}</span>
+                    <span className="item">Last Name : {user.last_name}</span>
+                    <span className="item">Gender : {user.gender}</span>
+                    <span className="item">Date of Birth : {moment(user.date_of_birth).format('YYYY-MM-DD')}</span>
+                </div>
             </div>
-            
-            <button>
-                Delete Account
-            </button>
         </div>
-        
+        ))}        
     </div>
   )
 }

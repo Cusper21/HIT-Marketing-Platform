@@ -86,11 +86,24 @@ const Card = ({item}) => {
     e.preventDefault()
 
     try {
-      makeRequest.get( `products/delete`,inputs)
+      await makeRequest.post( `/products/delete`,inputs)
     } catch (error) {
       setErr(error)
     }
-    console.log(err)
+    await queryClient.refetchQueries({ queryKey: ['allproducts']})
+    alert(err ? err : "Product Deleted")
+  }
+
+  const handleRestore = async (e)=>{
+    e.preventDefault()
+
+    try {
+      await makeRequest.post( `/products/restore`,inputs)
+    } catch (error) {
+      setErr(error)
+    }
+    await queryClient.refetchQueries({ queryKey: ['allproducts']})
+    alert(err ? err : "Product Restored")
   }
 
   const handleAdd =(e)=>{
@@ -155,7 +168,12 @@ const Card = ({item}) => {
 
         {(window.location.pathname.includes('/manage') || window.location.pathname.includes('/reported')) &&
           <div className='buttons2'>
-            <button>Update</button>
+            {currentUser.id === 'Admin'
+            ? <div className="restore">
+              {item.product_id_rfk ? <button onClick={handleRestore}>Restore</button> :''}
+              </div> 
+            :<button>Update</button>}
+            
             <button onClick={handleDelete}>Delete</button>
           </div>
         }
