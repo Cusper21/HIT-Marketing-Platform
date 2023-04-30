@@ -79,7 +79,7 @@ const ChangePassword = () => {
         <div className="container" onClick={(e) => e.stopPropagation()}>
         <div className="right">
           <h2>
-            Update
+            Change Password
           </h2>
 
           <form className="input">

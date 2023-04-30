@@ -6,6 +6,6 @@ const router = express.Router()
 router.get("/all", fetchAllCategories)
 router.post("/category", fetchCategory)
 router.post("/subcategories", fetchSubCategories)
-router.post("/", fetchAllSubCategories)
+router.get("/", fetchAllSubCategories)
 
 export default router

@@ -1,0 +1,101 @@
+@import "./../../color.scss";
+.update {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+
+
+  .container {
+    width: 30vw;
+    padding: 20px 0;
+    height: calc(90vh - 90px);
+    border-radius: 20px;
+    background: $bg-light;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .files{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+
+      .imgContainer{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+
+        img{
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+        .file{
+          width: 90px;
+          border-radius: 5px;
+          padding: 5px;
+
+          &::file-selector-button {
+          margin-right: 10px;
+          border: none;
+          background: $accent-blue;
+          padding: 5px 10px;
+          border-radius: 20px;
+          color: #fff;
+          cursor: pointer;
+          transition: background .2s ease-in-out;
+          }
+
+          &::file-selector-button:hover {
+          background: $accent-blue;
+          }
+        }
+      }
+    }
+
+    input[type="text"],input[type="number"]{
+      width: 250px;
+      border-radius: 5px;
+      border: 1px solid rgba($text-dark, .3);
+      padding: 5px;
+
+      &:focus{
+          outline: none;
+          border: 1px solid rgba($accent-blue, 1);
+      }
+    }
+
+    button{
+      width: fit-content;
+      border: 2px solid rgba($text-dark, 1);
+      border-radius: 5px;
+      padding: 6px 18px;
+      background: rgba($text-dark, 1);
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-light;
+      cursor: pointer;
+      transition: all .2s ease-in-out;
+      
+      &:focus-within{
+          background:rgba($text-dark, .9);
+          border-color: rgba($text-dark, .1);
+      }
+    }
+  }
+}

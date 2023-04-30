@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import './addProduct.scss'
 import {storage} from '../../firebase'
 import {v4} from 'uuid'
 import { makeRequest } from '../../axios'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { CategoriesContext} from '../../context/categoriesContext'
 
 const AddProduct = () => {
   const [image1, setImage1] = useState(null)
   const [image2, setImage2] = useState(null)
 
+  const {cat,scat, categories, subCategories} = useContext(CategoriesContext)
+  
   const [inputs, setInputs] = useState({
     name:"",
     description:"",
@@ -22,6 +25,11 @@ const AddProduct = () => {
     category_pfk:"",
     sub_category_pfk:"",
   })
+
+  cat()
+  if(inputs.category_pfk !== ""){
+    scat({category_sfk:inputs.category_pfk})
+  }
 
   const uploadImages = async () => {
 
@@ -68,7 +76,17 @@ const AddProduct = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault()
-    uploadImages()
+    if(!image1 || !image2){
+      alert('Choose Both Images')
+    }else{
+      try {
+        uploadImages().then(()=>{
+          alert('Product Upload Successful')
+        })
+      } catch (error) {
+        alert('error')
+      }
+    }
   }
   
   const handleChange = (e)=>{
@@ -80,25 +98,43 @@ const AddProduct = () => {
       <div className="container">
         
         <div className='catImage'>
-          <img src={image1 ? URL.createObjectURL(image1): "../assets/imageBg.png"} alt="Preview" />
-          <img src={image2 ? URL.createObjectURL(image2): "../assets/imageBg.png"} alt="Preview" />
+          <div className="imgContainer">
+            <img src={image1 ? URL.createObjectURL(image1): "../assets/imageBg.png"} alt="Preview" />
+            <input type="file" className='file' placeholder="Choose main image"name='image1' onChange={(e)=> setImage1(e.target.files[0])}/>
+          </div>
+          <div className="imgContainer">
+            <img src={image2 ? URL.createObjectURL(image2): "../assets/imageBg.png"} alt="Preview" />
+            <input type="file" className='file' placeholder="Choose second image" name='image2' onChange={(e)=> setImage2(e.target.files[0])}/>
+          </div>
         </div>
 
-        <div className="userInfo">
+        <div className="userInfo" >
 
-          <form action="/stats" encType="multipart/form-data" method="post" >
-            <input type="text" placeholder="Enter Name" name='name' value={inputs.name} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Description" name='description' value={inputs.description} onChange={handleChange}/>
-            <input type="number" placeholder="Enter Price" name='price' value={inputs.price} onChange={handleChange}/>
-            <input type="file" placeholder="Choose main image"name='image1' onChange={(e)=> setImage1(e.target.files[0])}/>
-            <input type="file" placeholder="Choose second image" name='image2' onChange={(e)=> setImage2(e.target.files[0])}/>
-            <input type="number" placeholder="Enter Size" name='size' value={inputs.size} onChange={handleChange}/>
+          <form onSubmit={handleFormSubmit} >
+            <input type="text" placeholder="Enter Name" name='name' value={inputs.name} required onChange={handleChange}/>
+            <input type="text" placeholder="Enter Description" name='description' value={inputs.description} required onChange={handleChange}/>
+            <input type="number" placeholder="Enter Price" name='price' value={inputs.price} required onChange={handleChange}/>
+            <input type="text" placeholder="Enter Size" name='size' value={inputs.size} onChange={handleChange}/>
             <input type="text" placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Quantity" name='quantity' value={inputs.quantity} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Category" name='category_pfk' value={inputs.category_pfk} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Sub-Category" name='sub_category_pfk' value={inputs.sub_category_pfk} onChange={handleChange}/>
+            <input type="text" placeholder="Enter Quantity" name='quantity' value={inputs.quantity} required onChange={handleChange}/>
+            <select name="category_pfk" value={inputs.category_pfk} required onChange={handleChange}>
+            <option value="" disabled>Select Category</option>
+              {categories?.map((option) => (
+                <option key={option.title} value={option.title}>
+                  {option.title}
+                </option>
+              ))}
+            </select>
+            <select name='sub_category_pfk' value={inputs.sub_category_pfk} required onChange={handleChange}>
+            <option value="" disabled>Select Sub Category</option>
+            {subCategories?.map((option) => (
+                <option key={option.title} value={option.title}>
+                  {option.title}
+                </option>
+              ))}
+            </select>
 
-            <button onClick={handleFormSubmit}>
+            <button type='submit' >
               Upload
             </button>
 

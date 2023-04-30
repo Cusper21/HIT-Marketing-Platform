@@ -1,5 +1,5 @@
 import express from 'express';
-import { restoreProduct, postProducts, fetchCleanProducts,reportProduct, getFeaturedProducts, getPopularProducts, fetchProducts,fetchVendorProducts, fetchReportedProducts, fetchProduct, deleteProduct,fetchAllProducts } from '../controllers/product.js';
+import { updateProduct, restoreProduct, postProducts, fetchCleanProducts,reportProduct, getFeaturedProducts, getPopularProducts, fetchProducts,fetchVendorProducts, fetchReportedProducts, fetchProduct, deleteProduct,fetchAllProducts } from '../controllers/product.js';
 
 const router = express.Router()
 
@@ -15,5 +15,6 @@ router.get("/reported", fetchReportedProducts)
 router.post("/product", fetchProduct)
 router.post("/delete", deleteProduct)
 router.post("/restore", restoreProduct)
+router.put("/update", updateProduct)
 
 export default router

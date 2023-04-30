@@ -24,12 +24,15 @@ import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
 import { SearchContextProvider } from './context/searchContext';
 import { ChatContextProvider } from "./context/chatContext";
+import { CategoriesContextProvider } from "./context/categoriesContext";
+
 import Bookmarks from "./pages/bookmarks/Bookmarks";
 import { CompareContextProvider } from "./context/compareContext";
 import Users from "./pages/manageUsers/Users";
 import ManageAllProducts from "./pages/manageAllProducts/ManageAllProducts";
 import VendorProfile from "./pages/vendorProfile/VendorProfile";
 import ChangePassword from "./pages/changePassword/ChangePassword";
+import Admin from "./pages/adminDash/Admin";
 
 function App() {
 
@@ -49,11 +52,13 @@ function App() {
         <div className="Layout">
           <SearchContextProvider>
             <CompareContextProvider>
-              <ChatContextProvider>
-                <Navbar/>
-                <Outlet/>
-                <Footer/>
-              </ChatContextProvider>
+              <CategoriesContextProvider>
+                <ChatContextProvider>
+                  <Navbar/>
+                  <Outlet/>
+                  <Footer/>
+                </ChatContextProvider>
+              </CategoriesContextProvider>
             </CompareContextProvider>
           </SearchContextProvider>
         </div>
@@ -140,7 +145,7 @@ function App() {
             },
             {
               path: "/up/admin",
-              element: <ProtectedRoute3><Users/></ProtectedRoute3>
+              element: <ProtectedRoute3><Admin/></ProtectedRoute3>
             },
             {
               path: "/up/manageusers",

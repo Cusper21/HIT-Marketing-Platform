@@ -4,7 +4,9 @@ import { makeRequest } from '../../axios'
 import { useQuery } from '@tanstack/react-query'
 import Card from '../../components/card/Card'
 
+
 const ManageAllProducts = () => {
+
   const { error, isLoading, data: products } = useQuery(["allproducts"], () =>
 
   makeRequest.get("/products/all").then((res) => {
@@ -19,7 +21,9 @@ const ManageAllProducts = () => {
         ? "Something Went Wrong"
         :isLoading ? "loading"
         :products?.map(item=>(
-          <Card item = {item} key={item.id}/>
+          <div>
+            <Card item = {item} key={item.id}/>
+          </div>
         ))
       }
     </div>

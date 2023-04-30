@@ -15,7 +15,7 @@ import moment from "moment"
 import './card.scss'
 import { CompareContext } from '../../context/compareContext';
 
-const Card = ({item}) => {
+const Card = ({item, setOpen}) => {
 
   const{currentUser} = useContext(AuthContext)
   const {setProduct1,setProduct2,product1,product2,setPopUp} = useContext(CompareContext)
@@ -134,6 +134,11 @@ const Card = ({item}) => {
     reportMutation.mutate(item)
   }
 
+  const handlePopUp =(e)=>{
+    e.preventDefault()
+    setOpen(true)
+  }
+
   return (
     <Link className='link' to={`/product/${item.id}`}>
       <div className='card'>
@@ -172,7 +177,7 @@ const Card = ({item}) => {
             ? <div className="restore">
               {item.product_id_rfk ? <button onClick={handleRestore}>Restore</button> :''}
               </div> 
-            :<button>Update</button>}
+            :<button onClick={handlePopUp}>Update</button>}
             
             <button onClick={handleDelete}>Delete</button>
           </div>

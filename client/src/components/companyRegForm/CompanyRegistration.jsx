@@ -39,18 +39,17 @@ const CompanyRegistration = () => {
         Company Registration
       </h2>
 
-      <div className="input">
-        <input type="text" placeholder="Enter Company Name" name='name'  onChange={handleChange}/>
-        <input type="text" placeholder="Enter Type" name='type' onChange={handleChange}/>
-        <input type="text" placeholder="Enter Address" name='address' onChange={handleChange}/>
-        <input type="number" placeholder="Enter Cell" name='cell' onChange={handleChange}/>
-        <input type="email" placeholder="Enter Email" name='email' onChange={handleChange}/>
-        <input type="text" placeholder="Enter Username" name='username' onChange={handleChange}/>
-        <input type="password" placeholder="Enter Password" name='password' onChange={handleChange}/>
-        <input type="password" placeholder="Re-Enter Password" name='cpassword' onChange={handleChange}/>
+      <form className="input" onSubmit={handleClick}>
+        <input type="text" placeholder="Enter Company Name" name='name'  required onChange={handleChange}/>
+        <input type="text" placeholder="Enter Type" name='type' required onChange={handleChange}/>
+        <input type="text" placeholder="Enter Address" name='address' required onChange={handleChange}/>
+        <input type="number" placeholder="Enter Cell" name='cell' required onChange={handleChange}/>
+        <input type="email" placeholder="Enter Email" name='email' required onChange={handleChange}/>
+        <input type="text" placeholder="Enter Username" name='username' required onChange={handleChange}/>
+        <input type="password" placeholder="Enter Password" name='password' required onChange={handleChange}/>
+        <input type="password" placeholder="Re-Enter Password" name='cpassword' required onChange={handleChange}/>
 
-        <span></span>
-        <button onClick={handleClick}>
+        <button type='submit'>
           Register
         </button>
 
@@ -63,7 +62,7 @@ const CompanyRegistration = () => {
           </Link>
         </div>
 
-      </div>
+      </form>
     </div>
   )
 }

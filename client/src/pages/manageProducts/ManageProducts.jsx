@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import Card from '../../components/card/Card'
-
+import UpdateProducts from '../../components/updateProducts/UpdateProducts'
 import './manageProducts.scss'
 import { makeRequest } from '../../axios'
 
@@ -10,6 +10,7 @@ const ManageProducts = () => {
   const[err,setErr] = useState(null)
   const [loading, setLoading] = useState(true)
   const[products,setProducts] = useState([])
+  const [open, setOpen] = useState(false);
 
   useEffect(()=>{
 
@@ -36,7 +37,10 @@ const ManageProducts = () => {
         ? "Something Went Wrong"
         :loading ? "loading"
         :products?.map(item=>(
-          <Card item = {item} key={item.id}/>
+          <div key={item.id}>
+            <Card item = {item} setOpen={setOpen}/>
+            {open && <UpdateProducts setOpen={setOpen} item={item}/>}
+          </div>
         ))
       }
     </div>

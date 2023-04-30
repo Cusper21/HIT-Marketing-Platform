@@ -46,8 +46,7 @@ export const fetchAllSubCategories = (req, res) => {
 
     const q = `
     SELECT *
-    FROM sub_categories
-    LIMIT 20`;
+    FROM sub_categories`;
 
     db.query(q,[req.body.category_sfk], (err,data)=>{
         if (err)

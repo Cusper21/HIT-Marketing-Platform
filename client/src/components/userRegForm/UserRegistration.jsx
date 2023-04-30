@@ -75,19 +75,18 @@ const UserRegistration = () => {
         User Registration
       </h2>
 
-      <div className="input">
-        <input type="text" placeholder="Enter First Name" name="first_name" onChange={handleChange}/>
-        <input type="text" placeholder="Enter Last Name" name="last_name" onChange={handleChange}/>
-        <input type="menu" placeholder="Gender" name="gender" onChange={handleChange}/>
-        <input type="date" placeholder="Enter D.O.B" name="date_of_birth" onChange={handleChange}/>
-        <input type="email" placeholder="Enter Email" name="email" onChange={handleChange}/>
-        <input type="text" placeholder="Enter Username" name="username" onChange={handleChange}/>
-        <input type="password" placeholder="Enter Password" name="password" onChange={handleChange}/>
-        <input type="password" placeholder="Re-Enter Password" name="password" onChange={handleChange}/>
+      <form className="input" onSubmit={handleClick}>
+        <input type="text" placeholder="Enter First Name" name="first_name" required onChange={handleChange}/>
+        <input type="text" placeholder="Enter Last Name" name="last_name" required onChange={handleChange}/>
+        <input type="menu" placeholder="Gender" name="gender" required onChange={handleChange}/>
+        <input type="date" placeholder="Enter D.O.B" name="date_of_birth" required onChange={handleChange}/>
+        <input type="email" placeholder="Enter Email" name="email" required onChange={handleChange}/>
+        <input type="text" placeholder="Enter Username" name="username" required onChange={handleChange}/>
+        <input type="password" placeholder="Enter Password" name="password" required onChange={handleChange}/>
+        <input type="password" placeholder="Re-Enter Password" name="password" required onChange={handleChange}/>
 
         <div>
-
-          <button onClick={handleClick}>
+          <button type="submit">
             Register
           </button>
         </div>
@@ -104,7 +103,7 @@ const UserRegistration = () => {
 
         <button onClick={handleModal}>Close Modal</button>
 
-      </div>
+      </form>
 
       <Modal isOpen={isModalOpen} onRequestClose={handleModal}>
         <div className="heading">

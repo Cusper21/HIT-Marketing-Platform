@@ -55,7 +55,7 @@ const Sidebar = () => {
         <div className="links">
 
           <Link className='link' to={`/up`}>
-            <h4>Profile page</h4>
+            <h4>Dash Board</h4>
           </Link>
 
           <Link className='link' to='/up/manageusers'>

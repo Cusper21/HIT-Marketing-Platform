@@ -215,7 +215,7 @@ export const restoreProduct = (req, res) => {
             db.query(q,req.body.id, (err,data)=>{
                 if (err)
                 return res.status(500).send(err);
-                return res.status(200).send("Product deleted!");
+                return res.status(200).send("Product restored!");
             });
 
         }
@@ -238,6 +238,27 @@ export const reportProduct = (req, res) => {
             if (err)
             return res.status(500).send(err);
             return res.status(200).send("Product reported!");
+        });
+    })    
+};
+
+export const updateProduct = (req, res) => {
+    const token = req.cookies.accessToken;
+
+    if(!token) return res.status(401).send("User is not logged in!")
+
+    jwt.verify(token, secret, (err,data)=>{
+        if (err) return res.status(403).send("Token is invalid!")
+    
+        const q = `
+        UPDATE products
+        SET name=?, description=?, price=?, image1=?, image2=?, size=?, colors=?
+        WHERE id=? AND vendor_id_pfk=?;`
+    
+        db.query(q,[req.body.name,req.body.description,req.body.price,req.body.image1,req.body.image2, req.body.size,req.body.colors,req.body.id, data.id], (err,data)=>{
+            if (err)
+            return res.status(500).send(err);
+            return res.status(200).send("Product updated!");
         });
     })    
 };
