@@ -10,7 +10,7 @@ const Search = () => {
 
       <div className="input">
         <SearchRoundedIcon/>
-        <input type="text" placeholder='Find User'/>
+        <input type="text" maxLength={20} placeholder='Find User'/>
       </div>
 
       <div className="results">

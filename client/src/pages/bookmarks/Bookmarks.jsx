@@ -46,7 +46,7 @@ const Bookmarks = () => {
         {products?.map((item) => (
           <Link className="item link" key={item.id} to={`/product/${item.id}`}>
             <div className="bleft">
-              <img src={"../productImages/"+item.image1} alt="" />
+              <img src={item.image1} alt="" />
               <div className="details">
                 <h3>{item.name}</h3>
                 <div className="price">

@@ -55,43 +55,22 @@
                 width: 85%;
                 line-height: 22px;
             }
-        }
-        .quantity{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 10px;
-            font-weight: bold;
-
-            button{
-                height: 30px;
-                width: 30px;
-                border-radius: 50%;
-                border: 1px $accent-blue solid;
-                color: $accent-blue;
-                background-color: $faint-blue;
-                font-size: 20px;
+            a{
+                font-size: 12px;
+                color: blue;
                 cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                &:hover{
-                    background-color: $accent-blue;
-                    color: $text-light;
-                }
             }
         }
-
+        
         .links{
             display: flex;
             align-items: center;
             gap: 20px;
 
-            .likes{
-                display: flex;
-                align-items: center;
-                gap: 2px;
+            .item{
+                background: #E3F2FD;
+                padding: 10px;
+                border-radius: 50%;
             }
             
             a{
@@ -120,6 +99,7 @@
                 }
             }
         }
+
         .info{
             display: flex;
             flex-direction: column;
@@ -144,5 +124,6 @@
                 }
             }
         }
+        
     }
 }

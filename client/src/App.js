@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate, useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import Navbar from "./components/navbar/Navbar";
@@ -32,7 +32,8 @@ import Users from "./pages/manageUsers/Users";
 import ManageAllProducts from "./pages/manageAllProducts/ManageAllProducts";
 import VendorProfile from "./pages/vendorProfile/VendorProfile";
 import ChangePassword from "./pages/changePassword/ChangePassword";
-import Admin from "./pages/adminDash/Admin";
+import Reports from "./pages/reports/Reports";
+import swal from "sweetalert";
 
 function App() {
 
@@ -67,16 +68,21 @@ function App() {
   
   const ProtectedRoute = ({children})=>{
     
-
+    const navigate = useNavigate();
     if(currentUser){
-      return children
+      if(!currentUser?.ban){
+        return children
+      }else{
+        navigate('/login');
+        swal('User Suspended', 'This user has been suspended', 'error');
+      }
     }
     return <Navigate to="/login"/>
   }
 
   const ProtectedRoute1 = ({children})=>{
     
-    if(currentUser.id.includes('C')){
+    if(currentUser?.id.includes('C')){
       return children
     }
     return <Navigate to="/up"/>
@@ -84,7 +90,7 @@ function App() {
 
   const ProtectedRoute2 = ({children})=>{
     
-    if(currentUser.id.includes('V')){
+    if(currentUser?.id.includes('V')){
       return children
     }
     return <Navigate to="/up"/>
@@ -92,7 +98,7 @@ function App() {
 
   const ProtectedRoute3 = ({children})=>{
     
-    if(currentUser.id.includes('A')){
+    if(currentUser?.id.includes('A')){
       return children
     }
     return <Navigate to="/up"/>
@@ -145,7 +151,7 @@ function App() {
             },
             {
               path: "/up/admin",
-              element: <ProtectedRoute3><Admin/></ProtectedRoute3>
+              element: <ProtectedRoute3><Reports/></ProtectedRoute3>
             },
             {
               path: "/up/manageusers",

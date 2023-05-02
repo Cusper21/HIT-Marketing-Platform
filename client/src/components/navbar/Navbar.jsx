@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarksOutlinedIcon from '@mui/icons-material/BookmarksOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import BalanceRoundedIcon from '@mui/icons-material/BalanceRounded';
 import "./navbar.scss"
@@ -89,7 +89,7 @@ const Navbar = () => {
             ? ''
             :<div className="item">
               <SearchRoundedIcon/>
-              <input type="text" placeholder='Search' id='search' onChange={handleChange} />
+              <input type="text" maxLength={20} placeholder='Search' id='search' onChange={handleChange} />
               <ClearRoundedIcon onClick={clearInput}/>
             </div>
           }
@@ -103,13 +103,16 @@ const Navbar = () => {
 
           <Link className="link" to={`/chat`}>
             <ChatOutlinedIcon/>
-            <span>0</span>
+
           </Link>
 
-          <Link className="link" to={`/up/bookmarks`}>
-            <BookmarkAddOutlinedIcon/>
-            <span>0</span>
-          </Link>
+          {
+            currentUser?.id.includes('C') &&
+            <Link className="link" to={`/up/bookmarks`}>
+              <BookmarksOutlinedIcon/>
+            </Link>
+          }
+
 
           <Link className="link" to={
             currentUser.id.includes('C')

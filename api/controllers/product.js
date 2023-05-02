@@ -92,7 +92,7 @@ export const fetchCleanProducts = (req, res) => {
 export const fetchAllProducts = (req, res) => {
 
     const q = `
-    SELECT p.id, name, description, price, image1, size, colors, quantity, date_added,product_id_rfk
+    SELECT p.*, product_id_rfk
     FROM products p
     LEFT JOIN reported_products r ON p.id = r.product_id_rfk`
 

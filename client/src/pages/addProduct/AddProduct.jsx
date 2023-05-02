@@ -111,12 +111,12 @@ const AddProduct = () => {
         <div className="userInfo" >
 
           <form onSubmit={handleFormSubmit} >
-            <input type="text" placeholder="Enter Name" name='name' value={inputs.name} required onChange={handleChange}/>
-            <input type="text" placeholder="Enter Description" name='description' value={inputs.description} required onChange={handleChange}/>
-            <input type="number" placeholder="Enter Price" name='price' value={inputs.price} required onChange={handleChange}/>
-            <input type="text" placeholder="Enter Size" name='size' value={inputs.size} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Quantity" name='quantity' value={inputs.quantity} required onChange={handleChange}/>
+            <input type="text" maxLength={40} placeholder="Enter Name" name='name' value={inputs.name} required onChange={handleChange}/>
+            <input type="text" maxLength={200} placeholder="Enter Description" name='description' value={inputs.description} required onChange={handleChange}/>
+            <input type="number" min={1} maxLength={6} placeholder="Enter Price" name='price' value={inputs.price} required onChange={handleChange}/>
+            <input type="text" maxLength={50} placeholder="Enter Size" name='size' value={inputs.size} onChange={handleChange}/>
+            <input type="text" maxLength={100} placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>
+            <input type="number" min={1} maxLength={40} placeholder="Enter Quantity" name='quantity' value={inputs.quantity} required onChange={handleChange}/>
             <select name="category_pfk" value={inputs.category_pfk} required onChange={handleChange}>
             <option value="" disabled>Select Category</option>
               {categories?.map((option) => (

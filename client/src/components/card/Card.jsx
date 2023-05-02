@@ -125,6 +125,7 @@ const Card = ({item, setOpen}) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["products"]);
+        queryClient.refetchQueries({ queryKey: ["homeProducts"]})
       },
     }
   )
@@ -152,22 +153,24 @@ const Card = ({item, setOpen}) => {
           
         </div>
         
-        {(window.location.pathname === '/' || window.location.pathname.includes('/products')) && 
+        {((window.location.pathname === '/' || window.location.pathname.includes('/products')) && currentUser.id.includes('C')) && 
         <div className='bottom'>
-          <div className='likes'>
+          <div className='item'>
             {likes?.includes(currentUser.id)
-            ? <FavoriteRoundedIcon style={{color:"red", height:"20px"}} onClick={handleLike}/>
+            ? <FavoriteRoundedIcon style={{color:"#ff1744", height:"20px"}} onClick={handleLike}/>
             : <FavoriteBorderRounded style={{height:"20px"}} onClick={handleLike}/>}
             {likes?.length}
           </div>
           
-          <div className='bookmarks'>
+          <div className='item'>
             {bookmarks?.includes(currentUser.id)
             ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleBookmark}/>
             : <BookmarkAddOutlinedIcon style={{height:"20px"}} onClick={handleBookmark}/>}
           </div>
-
-          <FlagRoundedIcon style={{ height:"20px"}} onClick={handleReport}/>
+          <div className="item">
+            <FlagRoundedIcon style={{ height:"20px"}} onClick={handleReport}/>
+          </div>
+          
         </div>
         }
 

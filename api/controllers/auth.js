@@ -1,5 +1,6 @@
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
+import moment from "moment";
 import jwt from "jsonwebtoken";
 import {secret} from './../index.js'
 
@@ -8,9 +9,9 @@ export const registerCustomer = (req, res) => {
     const q = `
     SELECT *
     FROM login
-    WHERE username = ?`;
+    WHERE username = ? OR email = ?`;
 
-    db.query(q, [req.body.username], (err,data)=>{
+    db.query(q, [req.body.username, req.body.email], (err,data)=>{
         if (err)
         return res.status(500).send(err);
         if (data.length)
@@ -22,17 +23,17 @@ export const registerCustomer = (req, res) => {
         const q = `
         BEGIN;
         INSERT INTO customers(first_name, last_name, gender, date_of_birth)
-        VALUES (?);
-        INSERT INTO login(username, email, password, preferences, customer_id_lfk)
-        VALUES(?,(Select max(id) from customers));
+        VALUES (?,?,?,?);
+        INSERT INTO login(username, email, password, preferences, customer_id_lfk,join_date)
+        VALUES(?,?,?,?,(Select max(id) from customers),?);
         COMMIT;`;
 
-        const values = [[req.body.first_name,req.body.last_name,req.body.gender,req.body.date_of_birth],[req.body.username,req.body.email,hashedPassword,req.body.preferences]];
+        const values = [req.body.first_name,req.body.last_name,req.body.gender,req.body.date_of_birth,req.body.username,req.body.email,hashedPassword,req.body.preferences,moment(Date.now()).format("YYYY-MM-DD")];
 
         db.query(q,values,(err,data)=>{
             if (err)
             return res.status(500).send(err);
-            return res.status(200).send("User handle created!");
+            return res.status(200).json(data);
         });
     });
 };
@@ -41,11 +42,11 @@ export const registerVendor = (req, res) => {
 
     const q = `SELECT *
     FROM login
-    WHERE username = ?`;
+    WHERE username = ? OR email = ?`;
 
-    db.query(q, [req.body.username], (err,data)=>{
+    db.query(q, [req.body.username, req.body.email], (err,data)=>{
         if (err)
-        return res.status(500).send(err);
+        return res.status(500).send("Could not register user. Contact Admin");
         if (data.length)
         return res.status(409).send("User already exists!");
 
@@ -55,12 +56,12 @@ export const registerVendor = (req, res) => {
         const q2 = `
         BEGIN;
         INSERT INTO vendors(name, type, address, cell, profile_picture,ban)
-        VALUES (?,0);
-        INSERT INTO login(username, email, password, vendor_id_lfk)
-        VALUES(?,(Select max(id) from vendors));
+        VALUES (?,?,?,?,?,0);
+        INSERT INTO login(username, email, password, vendor_id_lfk, join_date)
+        VALUES(?,?,?,(Select max(id) from vendors),?);
         COMMIT;`;
 
-        const values = [[req.body.name,req.body.type,req.body.address,req.body.cell,req.body.profile_picture],[req.body.username,req.body.email,hashedPassword]];
+        const values = [req.body.name,req.body.type,req.body.address,req.body.cell,req.body.profile_picture, req.body.username,req.body.email,hashedPassword,moment(Date.now()).format("YYYY-MM-DD")];
 
         db.query(q2,values,(err,data)=>{
             if (err)
@@ -73,7 +74,7 @@ export const registerVendor = (req, res) => {
 export const login = (req, res) => {
 
     const q = `
-    SELECT username, email, login.password, preferences, coalesce(customer_id_lfk, vendor_id_lfk, admin_id)id ,gender, IFNULL(first_name, name)name,coalesce(c.profile_picture, v.profile_picture, a.profile_picture)profile_picture
+    SELECT username, email, login.password, preferences, coalesce(customer_id_lfk, vendor_id_lfk, admin_id)id ,gender, IFNULL(first_name, name)name,coalesce(c.profile_picture, v.profile_picture, a.profile_picture)profile_picture,IFNULL(c.ban, v.ban)ban
     FROM login
     LEFT JOIN customers c ON customer_id_lfk = c.id
     LEFT JOIN vendors v ON vendor_id_lfk = v.id

@@ -7,6 +7,7 @@ import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
 import SortRoundedIcon from '@mui/icons-material/SortRounded';
 import ProductList from '../../components/productList/ProductList'
 
+
 import './products.scss'
 
 const Products = () => {
@@ -139,6 +140,9 @@ const Products = () => {
           :categories?.map(category =>(
             <div className="hero" key={category?.title}>
               <img src={category?.cover_picture} className="catImage" alt="" />
+              <div className="overlay">
+                  <span>{category?.title}</span>
+              </div>
             </div>
           ))
         }

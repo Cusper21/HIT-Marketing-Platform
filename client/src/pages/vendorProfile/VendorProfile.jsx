@@ -6,6 +6,7 @@ import { storage } from '../../firebase';
 import {v4} from 'uuid'
 import "./vendorProfile.scss"
 import VendorPopUp from '../../components/vendorPopUp/VendorPopUp';
+import { Chip, Divider } from '@mui/material';
 
 const VendorProfile = () => {
 
@@ -57,7 +58,11 @@ const VendorProfile = () => {
                 <span className='username'>@{vendor.username}</span>
                 <span className='username'>{vendor.email}</span>
                 <span className='title'>Vendor</span>
-                <hr className="style-eight"  data-content='Vendor Information'/>
+                <div>
+                <Divider className='divider' style={{  }}>
+                  <Chip label='Vendor Information' />
+                </Divider>
+              </div>
                 <div className="information">
                     <span className='item'>Name : {vendor.name}</span>
                     <span className="item">Type : {vendor.type}</span>

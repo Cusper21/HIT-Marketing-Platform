@@ -5,8 +5,11 @@ import { AuthContext } from '../../context/authContext';
 import './sidebar.scss'
 
 const Sidebar = () => {
-  const {currentUser} = useContext(AuthContext)
+  const {currentUser, logout} = useContext(AuthContext)
 
+  const handleLogout = ()=>{
+    logout()
+  }
 
   return (
     <div className='sidebar'>
@@ -54,7 +57,7 @@ const Sidebar = () => {
       {currentUser.id.includes('A') &&
         <div className="links">
 
-          <Link className='link' to={`/up`}>
+          <Link className='link' to={`/up/admin`}>
             <h4>Dash Board</h4>
           </Link>
 
@@ -69,8 +72,15 @@ const Sidebar = () => {
           <Link className='link' to={`/up/changepassword`}>
             <h4>Change Password</h4>
           </Link>
+
         </div>
       }
+
+      <div className="links">
+        <Link className='link' id='logout' onClick={handleLogout}>
+          <h4>Log out</h4>
+        </Link>
+      </div>
 
 
       

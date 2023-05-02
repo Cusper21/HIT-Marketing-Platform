@@ -79,7 +79,7 @@ export const redeemUser = (req, res) => {
 export const fetchAllUser = (req, res) => {
 
     const q = `
-    SELECT username, email, login.password, IFNULL(customer_id_lfk, vendor_id_lfk)id ,IFNULL(first_name, name)name,IFNULL(c.profile_picture, v.profile_picture)profile_picture,IFNULL(c.ban, v.ban)ban
+    SELECT username, email, IFNULL(customer_id_lfk, vendor_id_lfk)id ,IFNULL(first_name, name)name,IFNULL(c.profile_picture, v.profile_picture)profile_picture,IFNULL(c.ban, v.ban)ban,join_date
     FROM login
     LEFT JOIN customers c ON customer_id_lfk = c.id
     LEFT JOIN vendors v ON vendor_id_lfk = v.id
@@ -206,4 +206,30 @@ export const updateVendorProfile = (req, res) => {
                     return res.status(200).send(data);
             });
         })
+};
+
+export const fetchAllVendors = (req, res) => {
+    const q = `
+    SELECT *
+    FROM vendors
+    WHERE ban = 0`;
+
+    db.query(q,(err,data)=>{
+        if (err)
+        return res.status(500).send(err);
+        return res.status(200).send(data);
+    });
+};
+
+export const fetchAllCustomers = (req, res) => {
+    const q = `
+    SELECT *
+    FROM customers
+    WHERE ban = 0`;
+
+    db.query(q,(err,data)=>{
+        if (err)
+        return res.status(500).send(err);
+        return res.status(200).send(data);
+    });
 };

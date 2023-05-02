@@ -9,9 +9,8 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 const UpdateProducts = ({setOpen, item}) => {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
-
-
-
+  const queryClient = useQueryClient();
+  
   const [inputs, setInputs] = useState({
       id:item.id,
       description: item.description,
@@ -75,7 +74,6 @@ const UpdateProducts = ({setOpen, item}) => {
       setInputs((prev) => ({ ...prev, [e.target.name]: [e.target.value] }));
   };
   
-  const queryClient = useQueryClient();
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -90,27 +88,27 @@ const UpdateProducts = ({setOpen, item}) => {
     
   return (
     <div className="update" onClick={() => setOpen(false)}>
-      <div className="container" onClick={(e) => e.stopPropagation()}>
+      <form className="container" onClick={(e) => e.stopPropagation()}>
         <h3>Update Product</h3>
         <div className="files">
           <div className="imgContainer">
             <img src={image1 ? URL.createObjectURL(image1): item.image1} alt="" />
-            <input type="file" id="image1" className='file' onChange={(e) => setImage1(e.target.files[0])}/>
+            <input required type="file" id="image1" className='file' onChange={(e) => setImage1(e.target.files[0])}/>
           </div>
 
           <div className="imgContainer">
             <img src={image2? URL.createObjectURL(image2) : item.image2} alt=""/>
-            <input type="file" id="image2" className='file' onChange={(e) => setImage2(e.target.files[0])}/>
+            <input required type="file" id="image2" className='file' onChange={(e) => setImage2(e.target.files[0])}/>
           </div>
         </div>
 
-        <input type="text" placeholder="Enter Name" name='name' value={inputs.name} onChange={handleChange}/>
-        <input type="text" placeholder="Enter Description" name='description' value={inputs.description} onChange={handleChange}/>
-        <input type="number" placeholder="Enter Price" name='price' className='price' value={inputs.price} onChange={handleChange}/>
-        <input type="text" placeholder="Enter Size" name='size' className='size' value={inputs.size} onChange={handleChange}/>
-        <input type="text" placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>
+        <input required type="text" maxLength={40} placeholder="Enter Name" name='name' value={inputs.name} onChange={handleChange}/>
+        <input required type="text" maxLength={200} placeholder="Enter Description" name='description' value={inputs.description} onChange={handleChange}/>
+        <input required type="number" min={1} maxLength={6} placeholder="Enter Price" name='price' className='price' value={inputs.price} onChange={handleChange}/>
+        <input required type="text" maxLength={50} placeholder="Enter Size" name='size' className='size' value={inputs.size} onChange={handleChange}/>
+        <input required type="text" maxLength={100} placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>
         <button onClick={handleClick}>Update</button>
-      </div>
+      </form>
   </div>
 );
 };

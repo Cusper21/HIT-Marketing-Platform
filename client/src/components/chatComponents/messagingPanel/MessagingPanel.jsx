@@ -1,16 +1,23 @@
-import React, { useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useRef, useState} from 'react'
 import Message from '../message/Message'
 import InputPanel from '../inputPanel/InputPanel'
 
 import './messagingPanel.scss'
 import { ChatContext } from './../../../context/chatContext'
 import { makeRequest } from '../../../axios'
+import { Chip, Divider } from '@mui/material'
 
 const MessagingPanel = () => {
 
-  const {chatUser} = useContext(ChatContext)
+  const {chatUser, setRef} = useContext(ChatContext)
 
-  const[messages, setMessages] = useState()
+  const ref = useRef()
+
+  useEffect(() => {
+    ref.current.scrollTop = ref.current.scrollHeight;
+  }, []);
+
+  const[messages, setMessages] = useState([])
 
     const m = async ()=>{
         await makeRequest.post("/chats/messages", chatUser).then((res) => {
@@ -18,12 +25,25 @@ const MessagingPanel = () => {
         })
       }
 
+      const groupedMessages = messages?.reduce((acc, message) => {
+        const date = new Date(message?.date).toLocaleDateString();
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(message);
+        return acc;
+      }, {});
+      
+      // Sort dates
+      const sortedDates = Object.keys(groupedMessages).sort((a, b) => new Date(b) - new Date(a));
+      
+
   useEffect( () => {  
     chatUser && m()
   })
 
   return (
-    <div className='messagingPanel'>
+    <div ref={ref} className='messagingPanel'>
       <div className="top">
         <img src={chatUser?.user_image} alt="" />
         <h4>{chatUser?.user_name}</h4>
@@ -31,10 +51,19 @@ const MessagingPanel = () => {
       
       <div className="messages">
 
-      {messages?.map(message=>(
-          <Message message= {message} key={message.id}/>
-          )
-        )}
+      {Object.keys(groupedMessages).length > 0 && sortedDates?.map((date, index) => (
+  <div key={date}>
+    {index > 0 && <div>
+                <Divider className='divider' style={{  }}>
+                  <Chip label={date} />
+                </Divider>
+              </div>} 
+    
+    {groupedMessages[date].map((message) => (
+      <Message key={message?.date} message={message}/>
+    ))}
+  </div>
+))}
         
       </div>
       <InputPanel/>

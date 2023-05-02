@@ -27,7 +27,9 @@
         flex: 12;
         background:rgb(238, 238, 238);
         padding: 10px;
-        overflow-y: scroll;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column-reverse;
         
         &::-webkit-scrollbar
         {

@@ -1,13 +1,22 @@
 import "./login.scss"
+import swal from 'sweetalert';
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const Login = () => {
 
-  const {login} = useContext(AuthContext)
+  const {login, currentUser} = useContext(AuthContext)
   const [err, setErr] = useState(null)
   const navigate = useNavigate()
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const [inputs, setInputs] = useState({
     username:"",
@@ -18,19 +27,35 @@ const Login = () => {
     setInputs(prev=>({...prev, [e.target.name]:e.target.value}))
   }
 
-  const handleLogin = (e)=> {
-    e.preventDefault()
-
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
     try {
-      
-      login(inputs).then(()=> {
-        navigate("/")
-      })
-
+      swal({
+        title: 'Logging in...',
+        text: 'Please wait',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        onOpen: () => {
+          swal.showLoading();
+        },
+      });
+  
+      await login(inputs);
+  
+      swal.close();
+      navigate('/');
     } catch (err) {
-      setErr(err.response.data)
+      swal('',`Incorrect Username or Password!`,'error')
+
     }
-  }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === ' ') {
+      event.preventDefault();
+    }
+  };
 
   return (
     <div className="login">
@@ -53,17 +78,11 @@ const Login = () => {
             Login
           </h2>
 
-          <form action="">
-            <input type="text" placeholder="Enter Username" name="username" onChange={handleChange}/>
-            <input type="password" placeholder="Enter Password" name="password" onChange={handleChange}/>
-            
-            <div>
-              {err && err}
-              <button onClick={handleLogin}>
-                Submit
-              </button>
-            </div>
-
+          <form onSubmit={handleLogin}>
+            <input maxLength={64} required type="text" placeholder="Enter Username" name="username" onChange={handleChange}/>
+            <input maxLength={64} required type={showPassword ? 'text' : 'password'} placeholder="Enter Password" name="password" onChange={handleChange} onKeyPress={handleKeyPress}/>
+            <FormControlLabel control={<Checkbox checked={showPassword} onChange={handleTogglePassword} size="small"/>} label="Show password" />
+            <button type="submit" >Login </button>
           </form>
 
         </div>

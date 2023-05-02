@@ -5,7 +5,7 @@ a{
 .card{
     background: $bg-light;
     width: 230px;
-    height: 360px;
+
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -77,18 +77,19 @@ a{
         display: flex;
         align-items: center;
         justify-content:center;
-        gap: 15px;
+        gap: 25px;
         font-size: 12px;
         
-        .likes{
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-        .bookmarks{
-            display: flex;
-            align-items: center;
-            gap: 2px;
+        .item{
+            background: #E3F2FD;
+            padding: 10px;
+            border-radius: 50%;
+
+            &:first-child{
+                display: flex;
+                align-items: center;
+                border-radius: 20px;
+            }
         }
     }
     

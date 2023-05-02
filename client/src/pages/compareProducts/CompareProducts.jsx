@@ -3,6 +3,8 @@ import './compareProducts.scss'
 import { CompareContext } from '../../context/compareContext'
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import Compare from '../../components/comparePopUp/Compare';
+import Divider from '@mui/material/Divider';
+import Chip from '@mui/material/Chip';
 
 const CompareProducts = () => {
     const {product1,product2,setProduct1,setProduct2, popUp, setPopUp} = useContext(CompareContext)
@@ -56,7 +58,7 @@ const CompareProducts = () => {
                     <AddCircleRoundedIcon onClick={() => togglePopUp()}/>
                 </div>
             </div>
-
+            
             {
                 mergedArray?.map((key) => {
 
@@ -67,7 +69,11 @@ const CompareProducts = () => {
                       }
 
                 return ( <div className="attribute" key={key}>
-                    <hr class="style-eight"  data-content={key}/>
+                    <div>
+                    <Divider className='divider' >
+                        <Chip label={key} />
+                    </Divider>
+                    </div>
                     <div className="details">
                         {product1 ? <span>{product1[key]}</span> : <span> — </span>}
                         {product2 ? <span>{product2[key]}</span> : <span> — </span>}

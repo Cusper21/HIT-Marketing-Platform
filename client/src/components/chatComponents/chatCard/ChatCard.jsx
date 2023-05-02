@@ -4,10 +4,11 @@ import { ChatContext } from '../../../context/chatContext';
 import './chatCard.scss'
 
 const ChatCard = ({chat}) => {
-  const {setChatUser} = useContext(ChatContext)
+  const {setChatUser, ref} = useContext(ChatContext)
 
   const handleClick = (chat)=>{
     setChatUser(chat)
+    if(ref){ref.current.scrollTop = ref.current.scrollHeight;}
   }
   
   return (

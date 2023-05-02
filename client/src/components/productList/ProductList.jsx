@@ -50,6 +50,7 @@ const ProductList = ({catId, catFilters,minPrice, maxPrice, sort}) => {
       else return filteredProducts
     }
   )
+  
   const pref = currentUser.preferences ? JSON.parse(currentUser.preferences) : []
   const favoriteData = priceSort?.filter((item) => pref.includes(item.sub_category_pfk)) || []
   // filter the data to get items NOT in the user's favorite categories

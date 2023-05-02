@@ -6,6 +6,7 @@ import moment from "moment"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase';
 import {v4} from 'uuid'
+import { Chip, Divider } from '@mui/material';
 
 const Profile = () => {
     
@@ -55,7 +56,9 @@ const Profile = () => {
                 <span className='username'>@{user.username}</span>
                 <span className='username'>{user.email}</span>
                 <span className='title'>{user.id.includes("V") ? "Vendor": "Customer"}</span>
-                <hr className="style-eight"  data-content='Personal Information'/>
+                <Divider className='divider' style={{  }}>
+                  <Chip label='Vendor Information' />
+                </Divider>
                 <div className="information">
                     <span className='item'>First Name : {user.first_name}</span>
                     <span className="item">Last Name : {user.last_name}</span>

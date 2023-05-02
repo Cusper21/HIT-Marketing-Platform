@@ -45,11 +45,11 @@ const VendorPopUp = ({setPopUp, vendor}) => {
           </h2>
 
           <div className="input">
-            <input type="text" placeholder="Enter Company Name" name='name' value={inputs.name} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Type" name='type' value={inputs.type} onChange={handleChange}/>
-            <input type="text" placeholder="Enter Address" name='address' value={inputs.address} onChange={handleChange}/>
-            <input type="number" placeholder="Enter Cell" name='cell' value={inputs.cell} onChange={handleChange}/>
-            <input type="email" placeholder="Enter Email" name='email' value={inputs.email} onChange={handleChange}/>
+            <input type="text" maxLength={100} placeholder="Enter Company Name" name='name' value={inputs.name} onChange={handleChange}/>
+            <input type="text" maxLength={100} placeholder="Enter Type" name='type' value={inputs.type} onChange={handleChange}/>
+            <input type="text" maxLength={300} placeholder="Enter Address" name='address' value={inputs.address} onChange={handleChange}/>
+            <input type="number" maxLength={20} placeholder="Enter Cell" name='cell' value={inputs.cell} onChange={handleChange}/>
+            <input type="email" maxLength={60} placeholder="Enter Email" name='email' value={inputs.email} onChange={handleChange}/>
 
             <button onClick={handleClick}>
               Save

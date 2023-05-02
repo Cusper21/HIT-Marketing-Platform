@@ -44,9 +44,9 @@ const Footer = () => {
 
         <div className='item'>
           <h2>Links</h2>
-          <Link className='link' to=''>Compare Products</Link>
-          <Link className='link' to=''>Cookies</Link>
+          <Link className='link' to={`/compare`}>Compare Products</Link>
           <Link className='link' to=''>Privacy</Link>
+          <Link className='link' to=''>User Manual</Link>
           <Link className="link" to=''>Sales Terms</Link>
         </div>
 

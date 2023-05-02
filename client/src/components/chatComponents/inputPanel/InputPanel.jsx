@@ -29,7 +29,7 @@ const InputPanel = () => {
 
   return (
     <div className='inputPanel'>
-      <input type="text" name="" id="" placeholder='Type message' onChange={handleChange} disabled={(currentUser && chatUser) ? false: true}/>
+      <input type="text" name="" id="" placeholder='Type message' onChange={handleChange} required disabled={(currentUser && chatUser) ? false: true}/>
       <button onClick={handleClick} disabled={(currentUser && chatUser && message) ? false: true}>Send</button>
     </div>
   )

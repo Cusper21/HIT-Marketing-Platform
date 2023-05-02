@@ -58,20 +58,19 @@
 
             form{
                 width: 100%;
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 40px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
 
                 input{
-                    width: 1fr;
-                    border: none;
+                    width: 250px;
                     border-radius: 3px;
-                    border-bottom: 2px solid rgba($text-dark, .3);
+                    border: 2px solid rgba($text-dark, .3);
                     padding: 10px;
 
                     &:focus{
                         outline: none;
-                        border-bottom: 2px solid rgba($accent-lemongrass, 1);
+                        border: 2px solid rgba($accent-lemongrass, 1);
                     }
                 }
                 
@@ -84,7 +83,6 @@
                     font-size: 14px;
                     font-weight: 600;
                     color: $text-light;
-                    margin-top: 10px;
                     cursor: pointer;
                     transition: all .2s ease-in-out;
 

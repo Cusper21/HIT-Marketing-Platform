@@ -6,29 +6,30 @@
     height: calc(100vh - 110px);
 
     box-shadow: 0 0 0 1px #cfd9e0;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 10px;
     gap: 10px;
     overflow: hidden;
 
     .links{
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 5px;
+        position: relative;
 
         a{
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 10px;
 
             &:hover{
-                background: #2c8cf4;
-                color: white;
+                background:#E3F2FD;
+                color: #1565C0;
             }
             &:focus{
-                background: #2c8cf4;
-                color: white;
+                background:#E3F2FD;
+                color: #1565C0;
             }
         }
     }
@@ -36,5 +37,5 @@
 
 h4{
     font-size: 14px;
-    font-weight: 600;
+    font-weight: normal;
 }

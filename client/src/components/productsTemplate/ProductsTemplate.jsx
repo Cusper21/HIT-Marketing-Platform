@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
+import swal from 'sweetalert'
 
 import Card from '../card/Card.jsx'
 
 import './productsTemplate.scss'
+import { makeRequest } from '../../axios.js'
+import { useQuery } from '@tanstack/react-query'
 
 const ProductsTemplate = ({type}) => {
 
-  const[err,setErr] = useState(null)
-  const[loading,setLoading] = useState(true)
-  const[products,setProducts] = useState([])
+  const { isLoading, error, data: products } = useQuery(["homeProducts", type], () =>
+
+    makeRequest.get(`/products/${type}`).then((res) => {
+      return res.data
+    }),
+    { networkMode: "always" }
+  )
   
-  useEffect(()=>{
-
-    const getProducts = async (e)=>{
-      try {
-
-        const res = await axios.get(`http://localhost:8800/api/products/${type}`)
-        setProducts(res.data)
-
-      } catch (err) {
-        setErr(err)
-      }
-
-      setLoading(false)
-    }
-    
-    getProducts()
-  },[type,setProducts])
-
   return (
     <div className='productsTemplate'>
 
@@ -37,9 +25,9 @@ const ProductsTemplate = ({type}) => {
       </div>
 
       <div className="bottom1">
-        {err
-          ? "Something went wrong!"
-          :loading
+        {error
+          ? swal("", "Something Went Wrong", "error")
+          :isLoading
           ? "Loading..."
           :products.map(item =>(
             <Card item={item} key={item.id}/>

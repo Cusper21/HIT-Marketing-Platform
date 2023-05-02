@@ -67,12 +67,12 @@
                 input{
                     width: 250px;
                     border-radius: 5px;
-                    border: 1px solid rgba($text-dark, .3);
+                    border: 2px solid rgba($text-dark, .3);
                     padding: 5px;
     
                     &:focus{
                         outline: none;
-                        border: 1px solid rgba($accent-blue, 1);
+                        border: 2px solid rgba($accent-blue, 1);
                     }
 
                     &::file-selector-button {
@@ -111,12 +111,12 @@
                 select {
                     width: 260px;
                     border-radius: 5px;
-                    border: 1px solid rgba($text-dark, .3);
+                    border: 2px solid rgba($text-dark, .3);
                     padding: 5px;
                   
                     &:focus{
                       outline: none;
-                      border: 1px solid rgba($accent-blue, 1);
+                      border: 2px solid rgba($accent-blue, 1);
                     }
                   }
             }

@@ -5,62 +5,50 @@
     width: 90vw;
     position: relative;
     overflow-x: hidden;
-    border-radius: 30px;
+    border-radius: 20px;
     margin: 1vh 5vw;
 
     .container{
-        width: 300%;
+        width: 100%;
         height: 100%;
         display: flex;
-        transition: all 1s ease;
+        justify-content:right;
 
         img{
-            width: 100%;
+            width: 70%;
             height: 100%;
             object-fit: cover;            
         }
     }
 
-    .icons{
-        display: flex;
-        position: absolute;
-        padding: 0 20px;
-        left: 0;
-        right: 0;
-        bottom: 50%;
-        justify-content: space-between;
-        z-index: 1;
-        
-        .icon{
-            background: rgba($bg-dark, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            color: $icon-light;
-            cursor: pointer;
-            transition: all 500ms ease;
+    
 
-            &:hover{
-                background: rgba($bg-dark, 0.7);
-            }
-        }
-
-        
-    }
     .overlay{
         position: absolute;
-        
         left: 0px;
-        bottom: 0px;
+        top: 0px;
         width: 100%;
-        height: 20%;
-        background: rgba($bg-dark, 0.0);
-        backdrop-filter: blur(5px);
-        transition: all ease;
+        height: 100%;
+        background-image: linear-gradient(to right, #CB8762 50%,  transparent 80%);
         color: $text-light;
-        visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .info{
+            margin: 40px;
+            height: 50%;
+
+            h2{
+                font-size: 64px;
+                width: 40%;
+
+            }
+    
+            p{
+                width: 40%;
+
+            }
+        }
     }
 }
