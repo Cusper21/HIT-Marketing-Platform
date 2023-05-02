@@ -7,11 +7,11 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase';
 import {v4} from 'uuid'
 import { Chip, Divider } from '@mui/material';
+import swal from 'sweetalert';
 
 const Profile = () => {
     
     const [image1, setImage1] = useState(null)
- 
     const { error, isLoading, data: userprofile } = useQuery(["userprofile"], () =>
         makeRequest.get("/users/profile").then((res) => {
             return res.data
@@ -31,12 +31,29 @@ const Profile = () => {
         })
       };
       
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async(e) => {
         e.preventDefault()
         if(image1){
-            uploadImage()
+          try {
+            swal({
+              title: 'Uploading images...',
+              text: 'Please wait',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              onOpen: () => {
+                swal.showLoading();
+              },
+            });
+        
+            await  uploadImage()
+            swal.close();
+    
+          } catch (err) {
+            swal('',{err},'error')
+          }
+           
         }else{
-            alert('choose image first')
+            swal('choose image first')
         }
     }
 
@@ -56,7 +73,7 @@ const Profile = () => {
                 <span className='username'>@{user.username}</span>
                 <span className='username'>{user.email}</span>
                 <span className='title'>{user.id.includes("V") ? "Vendor": "Customer"}</span>
-                <Divider className='divider' style={{  }}>
+                <Divider className='divider'>
                   <Chip label='Vendor Information' />
                 </Divider>
                 <div className="information">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { makeRequest } from '../../axios'
 import './changePassword.scss'
+import swal from 'sweetalert';
 
 const ChangePassword = () => {
 
@@ -55,13 +56,12 @@ const ChangePassword = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try{
-      const res = await makeRequest.put("/users/changepassword", passwords).then(()=>{
-        alert(res.data)
+      await makeRequest.put("/users/changepassword", passwords).then(()=>{
+        swal("Successful", `Password Changed`, "error");
       })
       } catch (error) {
-      const errorMessage = error.response.data;
-      alert(errorMessage);
-    }
+      swal("", `${error}`, "error");
+      }
 
     } else {
       setErrors(prevErrors => ({ ...prevErrors, ...newErrors }));

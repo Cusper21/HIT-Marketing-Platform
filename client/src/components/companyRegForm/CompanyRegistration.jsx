@@ -6,7 +6,6 @@ import swal from 'sweetalert';
 const CompanyRegistration = () => {
   const navigate = useNavigate()
 
-  
   const [inputs, setInputs] = useState({
     name:"",
     type:"",

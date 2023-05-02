@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-
 import './addProduct.scss'
 import {storage} from '../../firebase'
 import {v4} from 'uuid'
 import { makeRequest } from '../../axios'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { CategoriesContext} from '../../context/categoriesContext'
+import swal from 'sweetalert'
 
 const AddProduct = () => {
   const [image1, setImage1] = useState(null)
@@ -27,6 +27,7 @@ const AddProduct = () => {
   })
 
   cat()
+  
   if(inputs.category_pfk !== ""){
     scat({category_sfk:inputs.category_pfk})
   }
@@ -74,17 +75,29 @@ const AddProduct = () => {
   },[inputs])
 
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault()
     if(!image1 || !image2){
-      alert('Choose Both Images')
+      swal('Warning',`Incorrect Username or Password!`,'warning')
     }else{
+
       try {
-        uploadImages().then(()=>{
-          alert('Product Upload Successful')
-        })
-      } catch (error) {
-        alert('error')
+        swal({
+          title: 'Uploading images...',
+          text: 'Please wait',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          onOpen: () => {
+            swal.showLoading();
+          },
+        });
+    
+        await uploadImages();
+        swal.close();
+
+      } catch (err) {
+        swal('',`Incorrect Username or Password!`,'error')
+  
       }
     }
   }

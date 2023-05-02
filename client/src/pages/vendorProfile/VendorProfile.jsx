@@ -7,6 +7,7 @@ import {v4} from 'uuid'
 import "./vendorProfile.scss"
 import VendorPopUp from '../../components/vendorPopUp/VendorPopUp';
 import { Chip, Divider } from '@mui/material';
+import swal from 'sweetalert';
 
 const VendorProfile = () => {
 
@@ -27,7 +28,7 @@ const VendorProfile = () => {
           getDownloadURL(snapshot.ref).then(async(url1) => {
             const res = await makeRequest.put('/users/updatevendorpic', {url:url1})
             if (res.data.affectedRows){
-                alert('Saved!')
+              swal("","Image Changed!", 'success')
             }
           });
         })
@@ -36,9 +37,26 @@ const VendorProfile = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault()
         if(image1){
+          try {
+            swal({
+              title: 'Uploading Image...',
+              text: 'Please wait',
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              onOpen: () => {
+                swal.showLoading();
+              },
+            });
+        
             uploadImage()
+        
+            swal.close();
+          } catch (error) {
+            swal("",`${error}`,"error")
+          }
+            
         }else{
-            alert('choose image first')
+          swal("",`Choose Image`,"warning")
         }
     }
 

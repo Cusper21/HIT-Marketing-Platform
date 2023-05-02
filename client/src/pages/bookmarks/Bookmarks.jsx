@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
+import swal from "sweetalert";
 
 
 const Bookmarks = () => {
@@ -23,10 +24,16 @@ const Bookmarks = () => {
 
   const deleteBookmark = async (e,productId)=>{
     e.preventDefault();
-    await makeRequest.delete('/bookmarks?product_id_bfk='+productId)
+
+    try {
+      await makeRequest.delete('/bookmarks?product_id_bfk='+productId)
       .then(()=>{
         queryClient.invalidateQueries(["bookmarks"]);
       })
+    } catch (error) {
+      swal('',`Something Went Wrong!`,'error')
+    }
+    
   }
 
   const deleteBookmarks = (e)=>{

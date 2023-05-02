@@ -11,6 +11,7 @@ import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import {AuthContext} from './../../context/authContext';
 import { makeRequest } from '../../axios.js';
 import moment from "moment"
+import swal from 'sweetalert'
 
 import './card.scss'
 import { CompareContext } from '../../context/compareContext';
@@ -68,8 +69,11 @@ const Card = ({item, setOpen}) => {
 
   const handleLike = (e) => {
     e.preventDefault()
-    console.log(item)
-    likeMutation.mutate(likes.includes(currentUser.id))
+    try {
+      likeMutation.mutate(likes.includes(currentUser.id))
+    } catch (error) {
+      swal("",`${error}`,"error")
+    }
   }
 
   const handleBookmark = (e) => {
@@ -77,7 +81,6 @@ const Card = ({item, setOpen}) => {
     bookmarkMutation.mutate(bookmarks.includes(currentUser.id))
   }
 
-  const[err, setErr] = useState(null)
   const[inputs] = useState({
     id: item.id
   })
@@ -87,11 +90,11 @@ const Card = ({item, setOpen}) => {
 
     try {
       await makeRequest.post( `/products/delete`,inputs)
+      swal("","Product Deleted", 'info')
+      await queryClient.refetchQueries({ queryKey: ['allproducts']})
     } catch (error) {
-      setErr(error)
+      swal("",`${error}`,"error")
     }
-    await queryClient.refetchQueries({ queryKey: ['allproducts']})
-    alert(err ? err : "Product Deleted")
   }
 
   const handleRestore = async (e)=>{
@@ -99,11 +102,11 @@ const Card = ({item, setOpen}) => {
 
     try {
       await makeRequest.post( `/products/restore`,inputs)
+      swal("","Product Restored", 'info')
+      await queryClient.refetchQueries({ queryKey: ['allproducts']})
     } catch (error) {
-      setErr(error)
+      swal("",`${error}`,"error")
     }
-    await queryClient.refetchQueries({ queryKey: ['allproducts']})
-    alert(err ? err : "Product Restored")
   }
 
   const handleAdd =(e)=>{
@@ -119,7 +122,6 @@ const Card = ({item, setOpen}) => {
   const reportMutation = useMutation(
     (reported) => {
       if (reported)
-      console.log(item)
       return makeRequest.post('products/reportproduct', item)
     },
     {
@@ -132,7 +134,12 @@ const Card = ({item, setOpen}) => {
 
   const handleReport =(e)=>{
     e.preventDefault()
-    reportMutation.mutate(item)
+    try {
+      reportMutation.mutate(item)
+      swal("","Product Restored", 'info')
+    } catch (error) {
+      swal("",`${error}`,"error")
+    }
   }
 
   const handlePopUp =(e)=>{
@@ -161,7 +168,6 @@ const Card = ({item, setOpen}) => {
             : <FavoriteBorderRounded style={{height:"20px"}} onClick={handleLike}/>}
             {likes?.length}
           </div>
-          
           <div className='item'>
             {bookmarks?.includes(currentUser.id)
             ? <BookmarkAddedRoundedIcon style={{height:"20px"}} onClick={handleBookmark}/>

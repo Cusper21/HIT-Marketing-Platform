@@ -16,6 +16,7 @@ import { makeRequest } from '../../axios';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AuthContext } from '../../context/authContext';
 import { ChatContext } from '../../context/chatContext';
+import swal from 'sweetalert';
 
 const SingleProduct = () => {
 
@@ -91,17 +92,28 @@ const SingleProduct = () => {
 
   const handleBookmark = (e) => {
     e.preventDefault()
-
-    bookmarkMutation.mutate(bookmarks.includes(currentUser.id))
+    try {
+      bookmarkMutation.mutate(bookmarks.includes(currentUser.id))
+    } catch (error) {
+      swal("",`${error}`,"error")
+    }
   }
 
   const handleLike = (e) => {
     e.preventDefault()
-    mutation.mutate(likes.includes(currentUser.id))
+    try {
+      mutation.mutate(likes.includes(currentUser.id))
+    } catch (error) {
+      swal("",`${error}`,"error")
+    }
   }
 
   const createchat = async (vendor)=>{
-    await makeRequest.post('/chats/createchat', vendor)
+    try {
+      await makeRequest.post('/chats/createchat', vendor)
+    } catch (error) {
+      swal("",`${error}`,"error")
+    }
   }
 
   const handleClick = (product)=>{
@@ -121,9 +133,16 @@ const SingleProduct = () => {
   }
 
   const handleReport = async(product)=>{
-    await makeRequest.post('products/reportproduct', product).then(()=>{
-      navigate(-1)
-    })
+
+    try {
+      await makeRequest.post('products/reportproduct', product).then(()=>{
+        navigate(-1)
+      })
+      swal("","Product Restored", 'info')
+    } catch (error) {
+      swal("",`${error}`,"error")
+    }
+    
   }
 
   return (

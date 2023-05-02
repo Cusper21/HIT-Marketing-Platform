@@ -8,8 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 
 const Login = () => {
 
-  const {login, currentUser} = useContext(AuthContext)
-  const [err, setErr] = useState(null)
+  const {login} = useContext(AuthContext)
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState(false);

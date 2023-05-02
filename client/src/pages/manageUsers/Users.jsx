@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import "./users.scss"
 import { makeRequest } from '../../axios'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import swal from 'sweetalert'
 
 const Users = () => {
 
@@ -19,10 +20,17 @@ const Users = () => {
 
   useEffect(() => {
     const q = async()=>{
-      
-      if(userInfo?.ban === 1)
-      return await makeRequest.put('/users/redeemuser', userInfo)
-      return await makeRequest.put('/users/banuser', userInfo)
+      try{
+
+        if(userInfo?.ban === 1)
+        return await makeRequest.put('/users/redeemuser', userInfo)
+        return await makeRequest.put('/users/banuser', userInfo)
+
+        } catch (error) {
+        const errorMessage = error.response.data;
+        swal("", `${errorMessage}`, "error");
+        }
+     
     }
     if(userInfo?.tablename){
       q()
@@ -37,9 +45,13 @@ const Users = () => {
     }else{
       setUserInfo({...user, tablename:"customers"})
     }
-
-    await queryClient.refetchQueries({ queryKey: ['users']})
-    alert("User Banned")
+    
+    try{
+      await queryClient.refetchQueries({ queryKey: ['users']})
+      swal("Successful", `Password Changed`, "error");
+    } catch (error) {
+      swal("", `${error}`, "error");
+    }
   }
 
   const handleRedeem = async(e,user)=>{
@@ -49,9 +61,13 @@ const Users = () => {
     }else{
       setUserInfo({...user, tablename:"customers"})
     }
-    
-    await queryClient.refetchQueries({ queryKey: ['users']})
-    alert("User Redeemed")
+
+    try{
+      await queryClient.refetchQueries({ queryKey: ['users']})
+      swal("", `User Redeemed`, "info");
+    } catch (error) {
+      swal("", `${error}`, "error");
+    }
   }
 
   return (

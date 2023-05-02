@@ -9,7 +9,7 @@ import { Chip, Divider } from '@mui/material'
 
 const MessagingPanel = () => {
 
-  const {chatUser, setRef} = useContext(ChatContext)
+  const {chatUser} = useContext(ChatContext)
 
   const ref = useRef()
 

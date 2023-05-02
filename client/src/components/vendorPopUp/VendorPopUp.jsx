@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './vendorPopUp.scss'
 import { makeRequest } from '../../axios'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import swal from 'sweetalert'
 
 const VendorPopUp = ({setPopUp, vendor}) => {
 
@@ -32,8 +33,14 @@ const VendorPopUp = ({setPopUp, vendor}) => {
 
   const handleClick = async (e)=>{
     e.preventDefault()
-    await mutation.mutate({...inputs});
-    setPopUp(false);
+    try{
+      await mutation.mutate({...inputs})
+      swal("Successful", `Vendor Updated`, "success");
+      setPopUp(false);
+      } catch (error) {
+      swal("", `${error}`, "error");
+      }
+    
   }
 
   return (

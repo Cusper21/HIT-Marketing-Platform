@@ -9,8 +9,6 @@ const Message = ({message}) => {
   const {currentUser} = useContext(AuthContext)
   const ref = useRef()
 
-
-
   return (
     <div ref={ref} className={`message ${message.sender_id === currentUser.id && "owner"}`}>
       <div className="contents">

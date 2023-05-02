@@ -5,6 +5,7 @@ import './updateProducts.scss'
 import { storage } from '../../firebase';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import swal from 'sweetalert';
 
 const UpdateProducts = ({setOpen, item}) => {
   const [image1, setImage1] = useState(null);
@@ -52,7 +53,6 @@ const UpdateProducts = ({setOpen, item}) => {
       await makeRequest.put('/products/update', {...inputs, ...urls}).then(()=>{
         queryClient.refetchQueries(["allproducts"]);
         setOpen(false)
-        alert('Update Successful')
         setImage1(null)
         setImage2(null)
       })
@@ -74,15 +74,39 @@ const UpdateProducts = ({setOpen, item}) => {
       setInputs((prev) => ({ ...prev, [e.target.name]: [e.target.value] }));
   };
   
-
   const handleClick = async (e) => {
     e.preventDefault();
     if(!image1 && !image2){
-      await makeRequest.put('/products/update', {...inputs, image1:item.image1, image2:item.image2}).then(()=>{
-        queryClient.refetchQueries(["allproducts"]);
-      })
+
+      try{
+        await makeRequest.put('/products/update', {...inputs, image1:item.image1, image2:item.image2}).then(()=>{
+          queryClient.refetchQueries(["allproducts"]);
+          swal("Successful", `Password Changed`, "error");
+        })
+        } catch (error) {
+        const errorMessage = error.response.data;
+        swal("", `${errorMessage}`, "error");
+        }
+      
     }else{
-      handleUpload()
+      try {
+        swal({
+          title: 'Uploading Images...',
+          text: 'Please wait',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          onOpen: () => {
+            swal.showLoading();
+          },
+        });
+    
+        await handleUpload()
+    
+        swal.close();
+      } catch (error) {
+        swal('',`${error}`,'error')
+      }
+      
     }
   }
     

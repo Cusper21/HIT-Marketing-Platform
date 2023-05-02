@@ -9,7 +9,7 @@ import { makeRequest } from '../../../axios'
 
 const SidePanel = () => {
 
-  const {  data: chats } = useQuery(["chats"], () =>
+  const { error, isLoading, data: chats } = useQuery(["chats"], () =>
     makeRequest.get("/chats/").then((res) => {
       return res.data
     }),
@@ -26,8 +26,9 @@ const SidePanel = () => {
       <Search/>
       <div className="bottom">
         
-        {
-        chats?.map(chat=>(
+        {error ? `${error}`
+        : isLoading ? 'loading'
+        :chats?.map(chat=>(
           <ChatCard chat= {chat} key={chat.user_id}/>
           )
         )}

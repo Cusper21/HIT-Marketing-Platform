@@ -10,9 +10,6 @@ const Slider = () => {
 
   return (
     <div className='slider'>
-
-        
-
         <div className="container">
             <img src={data[0]} alt="" />
         </div>
