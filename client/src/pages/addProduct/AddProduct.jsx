@@ -71,6 +71,8 @@ const AddProduct = () => {
           sub_category_pfk:"",
         }
       )
+      setImage1(null)
+      setImage2(null)
     }
   },[inputs])
 
@@ -78,7 +80,7 @@ const AddProduct = () => {
   const handleFormSubmit = async(e) => {
     e.preventDefault()
     if(!image1 || !image2){
-      swal('Warning',`Incorrect Username or Password!`,'warning')
+      swal('Warning',`Upload both images`,'warning')
     }else{
 
       try {
@@ -113,11 +115,11 @@ const AddProduct = () => {
         <div className='catImage'>
           <div className="imgContainer">
             <img src={image1 ? URL.createObjectURL(image1): "../assets/imageBg.png"} alt="Preview" />
-            <input type="file" className='file' placeholder="Choose main image"name='image1' onChange={(e)=> setImage1(e.target.files[0])}/>
+            <input type="file" id="myFileInput" className='file' placeholder="Choose main image"name='image1' onChange={(e)=> setImage1(e.target.files[0])}/>
           </div>
           <div className="imgContainer">
             <img src={image2 ? URL.createObjectURL(image2): "../assets/imageBg.png"} alt="Preview" />
-            <input type="file" className='file' placeholder="Choose second image" name='image2' onChange={(e)=> setImage2(e.target.files[0])}/>
+            <input type="file" id="myFileInput2" className='file' placeholder="Choose second image" name='image2' onChange={(e)=> setImage2(e.target.files[0])}/>
           </div>
         </div>
 
@@ -126,7 +128,7 @@ const AddProduct = () => {
           <form onSubmit={handleFormSubmit} >
             <input type="text" maxLength={40} placeholder="Enter Name" name='name' value={inputs.name} required onChange={handleChange}/>
             <input type="text" maxLength={200} placeholder="Enter Description" name='description' value={inputs.description} required onChange={handleChange}/>
-            <input type="number" min={1} maxLength={6} placeholder="Enter Price" name='price' value={inputs.price} required onChange={handleChange}/>
+            <input type="number" step="0.01" min={1} maxLength={6} placeholder="Enter Price" name='price' value={inputs.price} required onChange={handleChange}/>
             <input type="text" maxLength={50} placeholder="Enter Size" name='size' value={inputs.size} onChange={handleChange}/>
             <input type="text" maxLength={100} placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>
             <input type="number" min={1} maxLength={40} placeholder="Enter Quantity" name='quantity' value={inputs.quantity} required onChange={handleChange}/>

@@ -71,14 +71,13 @@ const CompanyRegistration = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try{
-   
         await makeRequest.post("/auth/registervendor",{ ...inputs, password:passwords.newPassword}).then(()=>{
         swal("Successful!", "User handle created.", "success");
         navigate('/login')
         })
 
       } catch (error) {
-        swal("Failed!", `${error.response.data}`, "error")
+        swal("Failed!", `${error}`, "error")
       }
 
     } else {

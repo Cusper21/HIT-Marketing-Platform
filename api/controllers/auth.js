@@ -65,6 +65,7 @@ export const registerVendor = (req, res) => {
 
         db.query(q2,values,(err,data)=>{
             if (err)
+           
             return res.status(500).send(err);
             return res.status(200).send("User handle created!");
         });

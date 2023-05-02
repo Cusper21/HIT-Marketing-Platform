@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { makeRequest } from '../../axios';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -8,8 +8,11 @@ import "./vendorProfile.scss"
 import VendorPopUp from '../../components/vendorPopUp/VendorPopUp';
 import { Chip, Divider } from '@mui/material';
 import swal from 'sweetalert';
+import { AuthContext } from '../../context/authContext';
 
 const VendorProfile = () => {
+  const{currentUser, setCurrentUser} = useContext(AuthContext)
+
 
     const [popUp, setPopUp] = useState(false)
 
@@ -26,9 +29,10 @@ const VendorProfile = () => {
         const image1Ref = ref(storage, `images/${v4() + image1.name}`);
         await uploadBytes(image1Ref, image1).then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async(url1) => {
+            setCurrentUser({...currentUser, profile_picture:url1})
             const res = await makeRequest.put('/users/updatevendorpic', {url:url1})
             if (res.data.affectedRows){
-              swal("","Image Changed!", 'success')
+              swal("Successful!","Profile Picture Changed!", 'success')
             }
           });
         })
@@ -49,7 +53,7 @@ const VendorProfile = () => {
             });
         
             uploadImage()
-        
+            
             swal.close();
           } catch (error) {
             swal("",`${error}`,"error")
