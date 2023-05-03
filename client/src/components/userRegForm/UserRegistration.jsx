@@ -149,7 +149,7 @@ const UserRegistration = () => {
       <form className="input">
         <input type="text" placeholder="Enter First Name" maxLength={40} name="first_name" required onChange={handleChange}/>
         <input type="text" placeholder="Enter Last Name" maxLength={40} name="last_name" required onChange={handleChange}/>
-        <select name="gender" required onChange={handleChange}>
+        <select name="gender" required value={inputs.gender} onChange={handleChange}>
         <option value="" disabled>Gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>

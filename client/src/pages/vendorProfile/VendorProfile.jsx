@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../../axios';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase';
@@ -11,8 +11,8 @@ import swal from 'sweetalert';
 import { AuthContext } from '../../context/authContext';
 
 const VendorProfile = () => {
-  const{currentUser, setCurrentUser} = useContext(AuthContext)
-
+  const{currentUser, setcurrentUser} = useContext(AuthContext)
+  const queryClient = useQueryClient();
 
     const [popUp, setPopUp] = useState(false)
 
@@ -29,21 +29,21 @@ const VendorProfile = () => {
         const image1Ref = ref(storage, `images/${v4() + image1.name}`);
         await uploadBytes(image1Ref, image1).then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async(url1) => {
-            setCurrentUser({...currentUser, profile_picture:url1})
             const res = await makeRequest.put('/users/updatevendorpic', {url:url1})
             if (res.data.affectedRows){
-              swal("Successful!","Profile Picture Changed!", 'success')
+              setcurrentUser({...currentUser, profile_picture:url1})
+              queryClient.invalidateQueries(['vendorprofile'])
             }
           });
         })
       };
       
-    const handleFormSubmit = (e) => {
+      const handleFormSubmit = async(e) => {
         e.preventDefault()
         if(image1){
           try {
             swal({
-              title: 'Uploading Image...',
+              title: 'Uploading Profile...',
               text: 'Please wait',
               allowOutsideClick: false,
               allowEscapeKey: false,
@@ -52,15 +52,15 @@ const VendorProfile = () => {
               },
             });
         
-            uploadImage()
-            
+            await  uploadImage()
             swal.close();
-          } catch (error) {
-            swal("",`${error}`,"error")
+            swal('',`Profile Updated!`,'success')
+          } catch (err) {
+            swal('',err,'error')
           }
-            
+           
         }else{
-          swal("",`Choose Image`,"warning")
+            swal('Choose image first',"info")
         }
     }
 

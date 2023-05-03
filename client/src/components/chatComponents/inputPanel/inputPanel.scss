@@ -1,34 +1,35 @@
 @import '../../../color.scss';
 
 .inputPanel{
-    flex: 2;
+    height: 10%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
 
     input{
-        min-width: 85%;
-        height: 40px;
+        width: 80%;
+        height: 100%;
         border: none;
+        padding: 0 20px;
+        border-radius: 20px;
+        background: white;
 
         &:focus{
             outline: none;
         }
     }
-    button{
-        width: fit-content;
-        border-radius: 5px;
-        padding: 5px 10px;
-        background: rgba($accent-blue, 1);
-        font-size: 14px;
+    .send{
+        border-radius: 50%;
+        padding: 14px;
+        font-size: 20px;
         font-weight: 600;
-        color: $text-light;
+        color: white;
+        background:#3BA58A;
         cursor: pointer;
         transition: all .2s ease-in-out;
-        border: none;
+
         &:hover{
-            background:rgba($accent-blue, .9);
+            background:rgb(187, 222, 251);
         }
     }  
 }

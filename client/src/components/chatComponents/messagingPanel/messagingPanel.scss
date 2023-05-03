@@ -6,14 +6,16 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 
-    .top{
-        flex: 2;
-        background: rgba($accent-purple, 1);
+    .top5{
+        height: 10%;
         display: flex;
         align-items: center;
         padding: 0 10px;
         gap: 10px;
+        border-radius: 20px;
+        background: white;
         
         img{
             height: 32px;
@@ -23,10 +25,12 @@
             overflow: hidden;
         }
     }
+
     .messages{
-        flex: 12;
-        background:rgb(238, 238, 238);
+        height: 78%;
         padding: 10px;
+        border-radius: 20px;
+        background: white;
         overflow-y: auto;
         display: flex;
         flex-direction: column-reverse;

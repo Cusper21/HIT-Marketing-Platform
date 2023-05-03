@@ -85,7 +85,7 @@ const AddProduct = () => {
 
       try {
         swal({
-          title: 'Uploading images...',
+          title: 'Saving Product...',
           text: 'Please wait',
           allowOutsideClick: false,
           allowEscapeKey: false,
@@ -96,7 +96,7 @@ const AddProduct = () => {
     
         await uploadImages();
         swal.close();
-
+        swal('',`Product Saved`,'success')
       } catch (err) {
         swal('',`Incorrect Username or Password!`,'error')
   
@@ -127,7 +127,7 @@ const AddProduct = () => {
 
           <form onSubmit={handleFormSubmit} >
             <input type="text" maxLength={40} placeholder="Enter Name" name='name' value={inputs.name} required onChange={handleChange}/>
-            <input type="text" maxLength={200} placeholder="Enter Description" name='description' value={inputs.description} required onChange={handleChange}/>
+            <input type="text-area" maxLength={200} placeholder="Enter Description" name='description' value={inputs.description} required onChange={handleChange}/>
             <input type="number" step="0.01" min={1} maxLength={6} placeholder="Enter Price" name='price' value={inputs.price} required onChange={handleChange}/>
             <input type="text" maxLength={50} placeholder="Enter Size" name='size' value={inputs.size} onChange={handleChange}/>
             <input type="text" maxLength={100} placeholder="Enter Colors" name='colors' value={inputs.colors} onChange={handleChange}/>

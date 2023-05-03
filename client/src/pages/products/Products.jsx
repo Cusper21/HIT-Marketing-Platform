@@ -11,8 +11,6 @@ import ProductList from '../../components/productList/ProductList'
 import './products.scss'
 
 const Products = () => {
-
-  window.scrollTo(0,0);
  
   const catId = useParams().id;
 

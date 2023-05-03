@@ -151,8 +151,8 @@ const Card = ({item, setOpen}) => {
     <Link className='link' to={`/product/${item.id}`}>
       <div className='card'>
         <div className="image">
-          {moment(Date.now()).diff(moment(item.date_added), 'days', true) <= 2 ? <span>New</span> : null}
-          <img src={item.image1} alt="" className='mainImg'/>
+          {moment(Date.now()).diff(moment(item.date_added), 'days', true) <= 7 ? <span>New</span> : null}
+          <img src={item.image1 ? item.image1 : './assets/imageBg.png'} alt="" className='mainImg'/>
         </div>
         <h3>{item.name}</h3>
         <div className="prices">

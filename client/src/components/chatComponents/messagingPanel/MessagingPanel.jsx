@@ -44,7 +44,7 @@ const MessagingPanel = () => {
 
   return (
     <div ref={ref} className='messagingPanel'>
-      <div className="top">
+      <div className="top5">
         <img src={chatUser?.user_image} alt="" />
         <h4>{chatUser?.user_name}</h4>
       </div>
@@ -53,7 +53,7 @@ const MessagingPanel = () => {
 
       {Object.keys(groupedMessages).length > 0 && sortedDates?.map((date, index) => (
   <div key={date}>
-    {index > 0 && <div>
+    {<div>
                 <Divider className='divider' style={{  }}>
                   <Chip label={date} />
                 </Divider>

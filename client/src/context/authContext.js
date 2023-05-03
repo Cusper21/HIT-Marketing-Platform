@@ -23,11 +23,11 @@ export const AuthContextProvider = ({children}) =>{
         setcurrentUser(null)
     }
 
-    useEffect((e)=>{
+    useEffect(()=>{
         localStorage.setItem("user", JSON.stringify(currentUser))
     },[currentUser])
 
-    return <AuthContext.Provider value={{currentUser, login, logout}}>
+    return <AuthContext.Provider value={{currentUser,setcurrentUser, login, logout}}>
         {isLoading ? ( children
         
       ) : (

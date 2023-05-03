@@ -103,6 +103,7 @@ const UpdateProducts = ({setOpen, item}) => {
         await handleUpload()
     
         swal.close();
+        swal('',`Product Saved`,'success')
       } catch (error) {
         swal('',`${error}`,'error')
       }

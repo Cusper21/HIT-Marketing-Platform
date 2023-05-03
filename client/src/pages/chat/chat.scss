@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: $faint-purple;
+    background: white;
     overflow-x: hidden;
 
     .container{
@@ -15,6 +15,7 @@
         border-radius: 10px;
         overflow: hidden;
         display: flex;
-        background: $bg-light;
+        background: #F2F5F9;
+        padding: 20px;
     }
 }

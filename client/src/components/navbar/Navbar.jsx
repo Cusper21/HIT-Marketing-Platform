@@ -85,13 +85,13 @@ const Navbar = () => {
         </div>
 
         <div className="center">
-          {(!window.location.pathname.includes('/products/') || !window.location.pathname.includes('/manageusers'))
-            ? ''
-            :<div className="item">
-              <SearchRoundedIcon/>
-              <input type="text" maxLength={20} placeholder='Search' id='search' onChange={handleChange} />
-              <ClearRoundedIcon onClick={clearInput}/>
-            </div>
+          {(window.location.pathname.includes('/products/') || window.location.pathname.includes('/manageusers'))
+            ?<div className="item">
+            <SearchRoundedIcon/>
+            <input type="text" maxLength={20} placeholder='Search' id='search' onChange={handleChange} />
+            <ClearRoundedIcon onClick={clearInput}/>
+          </div>
+            : ''
           }
         </div>
 
@@ -122,7 +122,7 @@ const Navbar = () => {
             : `/up/admin`
             }>
             <div className="navProfile">
-              <img src={currentUser.profile_picture} alt="" />
+              <img src={currentUser.profile_picture ? currentUser.profile_picture : './assets/user.png'} alt="" />
             </div>
           </Link>
 

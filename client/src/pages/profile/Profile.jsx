@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './profile.scss'
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequest } from '../../axios';
 import moment from "moment"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -8,8 +8,11 @@ import { storage } from '../../firebase';
 import {v4} from 'uuid'
 import { Chip, Divider } from '@mui/material';
 import swal from 'sweetalert';
+import { AuthContext } from '../../context/authContext';
 
 const Profile = () => {
+  const{currentUser, setcurrentUser} = useContext(AuthContext)
+  const queryClient = useQueryClient();
     
     const [image1, setImage1] = useState(null)
     const { error, isLoading, data: userprofile } = useQuery(["userprofile"], () =>
@@ -24,9 +27,10 @@ const Profile = () => {
         await uploadBytes(image1Ref, image1).then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async(url1) => {
             const res = await makeRequest.put('/users/updatepic', {url:url1})
-            if (res.data.affectedRows){
-                alert(res.data)
-            }
+              if (res.data.affectedRows){
+                setcurrentUser({...currentUser, profile_picture:url1})
+              queryClient.invalidateQueries(['vendorprofile'])
+              }
           });
         })
       };
@@ -36,7 +40,7 @@ const Profile = () => {
         if(image1){
           try {
             swal({
-              title: 'Uploading images...',
+              title: 'Uploading Profile...',
               text: 'Please wait',
               allowOutsideClick: false,
               allowEscapeKey: false,
@@ -47,13 +51,13 @@ const Profile = () => {
         
             await  uploadImage()
             swal.close();
-    
+            swal('',`Profile Updated!`,'success')
           } catch (err) {
-            swal('',{err},'error')
+            swal('',err,'error')
           }
            
         }else{
-            swal('choose image first')
+          swal('Choose image first',"info")
         }
     }
 
@@ -64,7 +68,7 @@ const Profile = () => {
         : userprofile?.map(user=>(
         <div className="ucard" key={user.id}>
             <div className="left">
-                <img src={user.profile_picture} alt="" />
+                <img src={user.profile_picture ? user.profile_picture : './assets/user.png'} alt="" />
                 <input type="file" name="" id="" className='file' onChange={(e)=> setImage1(e.target.files[0])}/>
                 <button onClick={handleFormSubmit}>Save</button>
             </div>
@@ -73,9 +77,12 @@ const Profile = () => {
                 <span className='username'>@{user.username}</span>
                 <span className='username'>{user.email}</span>
                 <span className='title'>{user.id.includes("V") ? "Vendor": "Customer"}</span>
+                <div>
                 <Divider className='divider'>
-                  <Chip label='Vendor Information' />
+                  <Chip label='Customer Information' />
                 </Divider>
+
+                </div>
                 <div className="information">
                     <span className='item'>First Name : {user.first_name}</span>
                     <span className="item">Last Name : {user.last_name}</span>

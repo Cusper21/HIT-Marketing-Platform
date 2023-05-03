@@ -52,7 +52,7 @@ const Footer = () => {
 
         <div className='item'>
           <h2>About Us</h2>
-          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae tempora cum atque suscipit. Id, ipsam? Reprehenderit quisquam placeat quaerat natus quas cupiditate assumenda nesciunt deleniti in eveniet tempora distinctio, ex, temporibus aperiam eius quibusdam id?
+          <p>We connect customers and businesses for successful outcomes. By bridging the gap and building stronger connections, we make it easy for customers to access products and services, while helping businesses grow and reach new audiences. Our platform is designed to create a more connected and efficient market, providing access to a wider range of options and improving the customer experience. Join us to take advantage of our powerful network and unlock the potential of your business or brand.
           </p>
         </div>
 
