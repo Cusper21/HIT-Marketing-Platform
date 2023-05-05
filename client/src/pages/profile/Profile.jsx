@@ -23,6 +23,8 @@ const Profile = () => {
     )
 
     const uploadImage = async () => {
+
+      try {
         const image1Ref = ref(storage, `images/${v4() + image1.name}`);
         await uploadBytes(image1Ref, image1).then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async(url1) => {
@@ -33,6 +35,10 @@ const Profile = () => {
               }
           });
         })
+      } catch (error) {
+        swal('','No internet', 'error')
+      }
+        
       };
       
     const handleFormSubmit = async(e) => {

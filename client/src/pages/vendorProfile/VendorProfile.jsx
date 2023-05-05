@@ -27,15 +27,22 @@ const VendorProfile = () => {
 
     const uploadImage = async () => {
         const image1Ref = ref(storage, `images/${v4() + image1.name}`);
-        await uploadBytes(image1Ref, image1).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then(async(url1) => {
-            const res = await makeRequest.put('/users/updatevendorpic', {url:url1})
-            if (res.data.affectedRows){
-              setcurrentUser({...currentUser, profile_picture:url1})
-              queryClient.invalidateQueries(['vendorprofile'])
-            }
-          });
-        })
+
+        try {
+          await uploadBytes(image1Ref, image1).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then(async(url1) => {
+              const res = await makeRequest.put('/users/updatevendorpic', {url:url1})
+              if (res.data.affectedRows){
+                setcurrentUser({...currentUser, profile_picture:url1})
+                queryClient.invalidateQueries(['vendorprofile'])
+              }
+            });
+          })
+        } catch (error) {
+          swal('','No internet','error')
+        }
+        
+        
       };
       
       const handleFormSubmit = async(e) => {

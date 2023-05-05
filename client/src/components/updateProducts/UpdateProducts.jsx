@@ -62,11 +62,17 @@ const UpdateProducts = ({setOpen, item}) => {
   const uploadFile = (file) => {
     return new Promise((resolve, reject) => {
       const fileRef = ref(storage, `images/${v4() + file.name}`);
-      uploadBytes(fileRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          resolve(url);
-        });
-      })
+      try {
+        uploadBytes(fileRef, file).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            resolve(url);
+          });
+        })
+      } catch (error) {
+        swal('','No Internet','error')
+      }
+      
+
     });
   };
 

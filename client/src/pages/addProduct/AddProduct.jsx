@@ -37,20 +37,25 @@ const AddProduct = () => {
     const image1Ref = ref(storage, `images/${v4() + image1.name}`);
     const image2Ref = ref(storage, `images/${v4() + image2.name}`);
 
-    await uploadBytes(image1Ref, image1).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url1) => {
-        console.log(url1)
-        setInputs((prev)=>({...prev, image1:url1}))
-      });
-    })
+    try {
+      await uploadBytes(image1Ref, image1).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url1) => {
+          console.log(url1)
+          setInputs((prev)=>({...prev, image1:url1}))
+        });
+      })
+  
+      await uploadBytes(image2Ref, image2).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url2) => {
+          
+          setInputs((prev)=>({...prev, image2:url2}))
+          console.log(url2)
+        });
+      })
+    } catch (error) {
+      swal('','No internet','error')
+    }
 
-    await uploadBytes(image2Ref, image2).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url2) => {
-        
-        setInputs((prev)=>({...prev, image2:url2}))
-        console.log(url2)
-      });
-    })
   };
 
   useEffect(()=>{
